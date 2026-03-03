@@ -27,9 +27,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-24">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <div className="font-heading text-3xl text-primary">
-              Batalha <span className="text-accent-gold">Imóveis</span>
-            </div>
+
           </Link>
 
           {/* Desktop Navigation */}
