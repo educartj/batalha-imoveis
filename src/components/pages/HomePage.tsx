@@ -31,6 +31,68 @@ const GoldBadge = ({ children }: { children: React.ReactNode }) => (
 
 // --- Sub-Sections ---
 
+const BatalhaImoveisSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section ref={ref} className="w-full py-24 bg-gradient-to-r from-primary via-primary to-secondary relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-accent-gold rounded-full blur-3xl" />
+        <div className="absolute right-0 top-1/4 w-80 h-80 bg-accent-gold/50 rounded-full blur-3xl" />
+      </div>
+
+      <div className="max-w-[120rem] mx-auto px-6 md:px-12 lg:px-20 relative z-10">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col items-center justify-center text-center"
+        >
+          <div className="mb-8 flex items-center justify-center gap-4">
+            <div className="h-px w-12 bg-accent-gold/60" />
+            <span className="font-paragraph text-sm uppercase tracking-widest text-accent-gold/80">Bem-vindo</span>
+            <div className="h-px w-12 bg-accent-gold/60" />
+          </div>
+
+          <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl text-white mb-6 leading-tight tracking-tight">
+            BATALHA
+            <br />
+            <span className="text-accent-gold italic font-light">IMÓVEIS</span>
+          </h1>
+
+          <p className="font-paragraph text-lg md:text-xl text-white/90 max-w-3xl mb-12 leading-relaxed">
+            Especialistas em imóveis de alto padrão há mais de 30 anos. Conectando sonhos a endereços nobres no interior de São Paulo, Litoral Norte e Portugal.
+          </p>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <Link to="/imoveis">
+              <Button size="lg" className="bg-accent-gold text-primary hover:bg-white hover:text-primary transition-all duration-300 min-w-[200px] h-14 text-lg font-paragraph font-semibold">
+                Explorar Portfólio
+              </Button>
+            </Link>
+            <a
+              href="https://wa.me/5511999999999"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button size="lg" variant="outline" className="border-white/40 text-white hover:bg-white hover:text-primary backdrop-blur-sm transition-all duration-300 min-w-[200px] h-14 text-lg font-paragraph font-semibold">
+                Fale Conosco
+              </Button>
+            </a>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -333,6 +395,8 @@ export default function HomePage() {
       <Header />
 
       <main>
+        <BatalhaImoveisSection />
+        
         <HeroSection />
         
         <MarqueeSection />
