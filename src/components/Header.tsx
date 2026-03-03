@@ -24,56 +24,51 @@ export default function Header() {
   return (
     <header className="w-full bg-white border-b border-foreground/10 sticky top-0 z-50">
       <div className="max-w-[100rem] mx-auto px-8 md:px-20">
-        <div className="flex items-center justify-between h-24">
-          {/* Logo */}
-          <Link to="/" className="flex items-center">
-
+        <div class="relative flex flex-col md:flex-row items-center justify-between py-8 md:py-12 lg:py-16 px-6 md:px-12 lg:px-24 bg-gradient-to-br from-primary to-secondary/90 rounded-b-[4rem] shadow-2xl border-b-8 border-accent-gold/80 pt-24 overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-tr from-accent-gold/10 via-transparent to-primary/10 opacity-60"></div>
+          <Link to="/" className="relative z-10 flex items-center justify-center md:justify-start mb-6 md:mb-0 md:w-1/4 lg:w-1/5">
+            <span className="font-heading font-bold text-accent-gold tracking-widest text-4xl md:text-5xl lg:text-6xl text-center md:text-left drop-shadow-lg">Batalhaimovei</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-12">
+          <nav className="relative z-10 hidden md:flex flex-col md:flex-row items-center justify-center gap-y-4 md:gap-x-8 lg:gap-x-16 md:w-2/4 lg:w-3/5">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-paragraph text-base transition-colors relative group ${
-                  isActive(link.path)
-                    ? 'text-primary font-semibold'
-                    : 'text-foreground/70 hover:text-primary'
-                }`}
+                className={`font-paragraph text-xl transition-all duration-500 relative group text-white/90 hover:text-accent-gold ${isActive(link.path) ? 'text-accent-gold font-semibold scale-110' : ''}`}
               >
                 {link.label}
                 <span
-                  className={`absolute -bottom-1 left-0 h-0.5 bg-accent-gold transition-all ${
-                    isActive(link.path) ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`}
+                  className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-accent-gold transition-all duration-500 ${isActive(link.path) ? 'w-full' : 'w-0 group-hover:w-full'}`}
                 />
               </Link>
             ))}
           </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:block">
-            <a
-              href="https://wa.me/5511999999999"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button
-                className="bg-accent-gold hover:bg-accent-gold/90 text-primary font-paragraph font-semibold px-6 h-12"
+          <div className="relative z-10 hidden md:flex justify-center md:justify-end md:w-1/4 lg:w-1/5 mt-6 md:mt-0">
+            <div className="relative group overflow-hidden rounded-full shadow-xl transition-all duration-700 ease-in-out hover:scale-105 hover:shadow-2xl bg-gradient-to-r from-accent-gold to-primary/80 p-1">
+              <a
+                href="https://wa.me/5511999999999"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative z-10 w-full h-full flex items-center justify-center"
               >
-                WhatsApp
-              </Button>
-            </a>
+                <Button
+                  className="w-full h-full bg-primary text-accent-gold font-heading font-bold text-lg px-8 py-4 rounded-full border-2 border-transparent group-hover:border-accent-gold transition-all duration-500 ease-in-out transform group-hover:bg-transparent group-hover:text-white"
+                >
+                  WhatsApp
+                </Button>
+              </a>
+              <div className="absolute inset-0 bg-accent-gold opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out rounded-full"></div>
+            </div>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-primary"
+            className="md:hidden p-4 text-white col-span-2 justify-self-end bg-accent-gold/30 rounded-full hover:bg-accent-gold/50 transition-colors duration-300 shadow-lg"
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
           </button>
         </div>
 
