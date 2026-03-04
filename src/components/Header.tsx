@@ -26,11 +26,11 @@ export default function Header() {
     <header className="w-full bg-gradient-to-r from-primary to-secondary sticky top-0 z-50 shadow-lg">
       <div className="max-w-[100rem] mx-auto px-6 md:px-12 lg:px-24 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex-shrink-0 hover:opacity-90 transition-opacity duration-300 text-accent-gold">
+        <Link to="/" className="flex-shrink-0 hover:opacity-90 transition-opacity duration-300">
           <Image
             src="https://static.wixstatic.com/media/72153f_c80b32c01b594878bcb497d87fed8fca~mv2.png"
             width={100}
-            className="h-auto border-0 border-solid border-[#c9a87cff] mix-blend-multiply opacity-[0.74]"
+            className="h-auto opacity-[0.31] border-0 border-solid border-[#c9a87cff]"
             originWidth={200}
             originHeight={100} />
         </Link>
