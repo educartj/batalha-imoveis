@@ -30,7 +30,7 @@ export default function Header() {
           <Image
             src="https://static.wixstatic.com/media/72153f_c80b32c01b594878bcb497d87fed8fca~mv2.png"
             width={100}
-            className="h-auto"
+            className="h-auto opacity-[0.31] border-0 border-solid border-[#c9a87cff]"
             originWidth={200}
             originHeight={100} />
         </Link>
