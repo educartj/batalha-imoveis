@@ -27,12 +27,12 @@ export default function Header() {
       <div className="max-w-[100rem] mx-auto px-6 md:px-12 lg:px-24 py-6 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex-shrink-0 hover:opacity-90 transition-opacity duration-300">
-          <Image 
-            src="https://static.wixstatic.com/media/72153f_8cb8420b04044806a404f9a18eb3d099~mv2.png?originWidth=256&originHeight=128"
-            alt="Batalha Imóveis Logo"
+          <Image
+            src="https://static.wixstatic.com/media/72153f_c14dfad627744afa808d49bbbd0a0e03~mv2.jpg"
             width={200}
             className="h-auto"
-          />
+            originWidth={150}
+            originHeight={100} />
         </Link>
 
         {/* Desktop Navigation */}
@@ -79,7 +79,6 @@ export default function Header() {
           {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
-
       {/* Mobile Navigation */}
       {isMenuOpen && (
         <nav className="md:hidden bg-primary/95 backdrop-blur-sm border-t border-white/10">
