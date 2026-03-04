@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Image } from '@/components/ui/image';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,8 +26,13 @@ export default function Header() {
     <header className="w-full bg-gradient-to-r from-primary to-secondary sticky top-0 z-50 shadow-lg">
       <div className="max-w-[100rem] mx-auto px-6 md:px-12 lg:px-24 py-6 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex-shrink-0 font-heading text-3xl md:text-4xl font-bold text-white hover:text-accent-gold transition-colors duration-300">
-          Logo
+        <Link to="/" className="flex-shrink-0 hover:opacity-90 transition-opacity duration-300">
+          <Image 
+            src="https://static.wixstatic.com/media/72153f_8cb8420b04044806a404f9a18eb3d099~mv2.png?originWidth=256&originHeight=128"
+            alt="Batalha Imóveis Logo"
+            width={200}
+            className="h-auto"
+          />
         </Link>
 
         {/* Desktop Navigation */}
