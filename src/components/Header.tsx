@@ -29,10 +29,10 @@ export default function Header() {
         <Link to="/" className="flex-shrink-0 hover:opacity-90 transition-opacity duration-300">
           <Image
             src="https://static.wixstatic.com/media/72153f_c80b32c01b594878bcb497d87fed8fca~mv2.png"
-            width={140}
+            width={100}
             className="h-auto"
             originWidth={270}
-            originHeight={140} />
+            originHeight={100} />
         </Link>
 
         {/* Desktop Navigation */}
