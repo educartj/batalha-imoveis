@@ -31,7 +31,7 @@ export default function Header() {
             src="https://static.wixstatic.com/media/72153f_c14dfad627744afa808d49bbbd0a0e03~mv2.jpg"
             width={200}
             className="h-auto"
-            originWidth={150}
+            originWidth={200}
             originHeight={100} />
         </Link>
 
