@@ -26,7 +26,7 @@ export default function Header() {
     <header className="w-full bg-gradient-to-r from-primary to-secondary sticky top-0 z-50 shadow-lg">
       <div className="max-w-[100rem] mx-auto px-6 md:px-12 lg:px-24 py-6 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex-shrink-0 hover:opacity-90 transition-opacity duration-300">
+        <Link to="/" className="flex-shrink-0 hover:opacity-90 transition-opacity duration-300 bg-secondary">
           <Image
             src="https://static.wixstatic.com/media/72153f_c14dfad627744afa808d49bbbd0a0e03~mv2.jpg"
             width={200}
