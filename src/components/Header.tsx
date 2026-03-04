@@ -28,11 +28,11 @@ export default function Header() {
         {/* Logo */}
         <Link to="/" className="flex-shrink-0 hover:opacity-90 transition-opacity duration-300">
           <Image
-            src="https://static.wixstatic.com/media/72153f_439151974d2b4de3a50f9191702c8cf9~mv2.png"
+            src="https://static.wixstatic.com/media/72153f_c80b32c01b594878bcb497d87fed8fca~mv2.png"
             width={140}
             className="h-auto"
-            originWidth={192}
-            originHeight={128} />
+            originWidth={140}
+            originHeight={140} />
         </Link>
 
         {/* Desktop Navigation */}
