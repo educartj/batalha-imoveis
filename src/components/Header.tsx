@@ -29,7 +29,7 @@ export default function Header() {
         <Link to="/" className="flex-shrink-0 hover:opacity-90 transition-opacity duration-300">
           <Image
             src="https://static.wixstatic.com/media/72153f_c80b32c01b594878bcb497d87fed8fca~mv2.png"
-            width={350}
+            width={140}
             className="h-auto"
             originWidth={350}
             originHeight={140} />
