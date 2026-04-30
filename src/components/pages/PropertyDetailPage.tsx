@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Image } from '@/components/ui/image';
-import { Button } from '@/components/ui/button';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { BaseCrudService } from '@/integrations';
-import { Imveis } from '@/entities';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { MapPin, Home, Bed, Bath, Maximize, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import Header from '@/components/Header';
+import { Button } from '@/components/ui/button';
+import { Image } from '@/components/ui/image';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { Imveis } from '@/entities';
+import { BaseCrudService } from '@/integrations';
+import { motion } from 'framer-motion';
+import { ArrowLeft, Bath, Bed, ChevronLeft, ChevronRight, Home, MapPin, Maximize } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 export default function PropertyDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -114,7 +114,7 @@ export default function PropertyDetailPage() {
                         className="relative h-[500px]"
                       >
                         <Image
-                          src={property.galeriaDeFotos[currentGalleryIndex]?.url || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                          src={property.galeriaDeFotos[currentGalleryIndex]?.url}
                           alt={`Galeria ${currentGalleryIndex + 1}`}
                           className="w-full h-full object-cover"
                           width={1200}
