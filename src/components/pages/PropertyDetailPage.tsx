@@ -8,13 +8,12 @@ import { BaseCrudService } from '@/integrations';
 import { Imveis } from '@/entities';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { MapPin, Home, Bed, Bath, Maximize, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import { MapPin, Home, Bed, Bath, Maximize, ArrowLeft } from 'lucide-react';
 
 export default function PropertyDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [property, setProperty] = useState<Imveis | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
 
   useEffect(() => {
     loadProperty();
@@ -24,7 +23,6 @@ export default function PropertyDetailPage() {
     try {
       const data = await BaseCrudService.getById<Imveis>('properties', id!);
       setProperty(data);
-      setCurrentGalleryIndex(0);
     } catch (error) {
       console.error('Error loading property:', error);
     } finally {
@@ -92,89 +90,6 @@ export default function PropertyDetailPage() {
                 </motion.div>
               </div>
             </section>
-
-            {/* Gallery Section */}
-            {property.galeriaDeFotos && property.galeriaDeFotos.length > 0 && (
-              <section className="w-full py-20 bg-white border-b border-foreground/10">
-                <div className="max-w-[100rem] mx-auto px-20">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                  >
-                    <h2 className="font-heading text-4xl text-primary mb-12">Galeria de Imagens</h2>
-                    
-                    {/* Main Gallery Image */}
-                    <div className="relative mb-8 rounded-xl overflow-hidden bg-background">
-                      <motion.div
-                        key={currentGalleryIndex}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                        className="relative h-[500px]"
-                      >
-                        <Image
-                          src={property.galeriaDeFotos[currentGalleryIndex]?.url || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
-                          alt={`Galeria ${currentGalleryIndex + 1}`}
-                          className="w-full h-full object-cover"
-                          width={1200}
-                        />
-                      </motion.div>
-
-                      {/* Navigation Buttons */}
-                      {property.galeriaDeFotos.length > 1 && (
-                        <>
-                          <button
-                            onClick={() => setCurrentGalleryIndex((prev) => (prev - 1 + property.galeriaDeFotos.length) % property.galeriaDeFotos.length)}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-primary/80 hover:bg-primary text-white p-3 rounded-full transition-colors"
-                            aria-label="Imagem anterior"
-                          >
-                            <ChevronLeft className="w-6 h-6" />
-                          </button>
-                          <button
-                            onClick={() => setCurrentGalleryIndex((prev) => (prev + 1) % property.galeriaDeFotos.length)}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-primary/80 hover:bg-primary text-white p-3 rounded-full transition-colors"
-                            aria-label="Próxima imagem"
-                          >
-                            <ChevronRight className="w-6 h-6" />
-                          </button>
-
-                          {/* Image Counter */}
-                          <div className="absolute bottom-4 right-4 bg-primary/80 text-white px-4 py-2 rounded-full font-paragraph text-sm">
-                            {currentGalleryIndex + 1} / {property.galeriaDeFotos.length}
-                          </div>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Thumbnail Gallery */}
-                    {property.galeriaDeFotos.length > 1 && (
-                      <div className="flex gap-4 overflow-x-auto pb-4">
-                        {property.galeriaDeFotos.map((image, index) => (
-                          <motion.button
-                            key={index}
-                            onClick={() => setCurrentGalleryIndex(index)}
-                            className={`flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden border-2 transition-all ${
-                              currentGalleryIndex === index
-                                ? 'border-accent-gold ring-2 ring-accent-gold'
-                                : 'border-foreground/10 hover:border-foreground/30'
-                            }`}
-                            whileHover={{ scale: 1.05 }}
-                          >
-                            <Image
-                              src={image?.url || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
-                              alt={`Thumbnail ${index + 1}`}
-                              className="w-full h-full object-cover"
-                              width={96}
-                            />
-                          </motion.button>
-                        ))}
-                      </div>
-                    )}
-                  </motion.div>
-                </div>
-              </section>
-            )}
 
             {/* Property Details */}
             <section className="w-full py-20 bg-background">
