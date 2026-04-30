@@ -1,14 +1,14 @@
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
-import { Button } from '@/components/ui/button';
-import { Image } from '@/components/ui/image';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { Imveis } from '@/entities';
-import { BaseCrudService } from '@/integrations';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Bath, Bed, ChevronLeft, ChevronRight, Home, MapPin, Maximize } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Image } from '@/components/ui/image';
+import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { BaseCrudService } from '@/integrations';
+import { Imveis } from '@/entities';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { MapPin, Home, Bed, Bath, Maximize, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function PropertyDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -94,7 +94,7 @@ export default function PropertyDetailPage() {
             </section>
 
             {/* Gallery Section */}
-            {property.galeriaDeFotos && Array.isArray(property.galeriaDeFotos) && property.galeriaDeFotos.length > 0 && (
+            {property.galeriaDeFotos && property.galeriaDeFotos.length > 0 && (
               <section className="w-full py-20 bg-white border-b border-foreground/10">
                 <div className="max-w-[100rem] mx-auto px-20">
                   <motion.div
@@ -114,7 +114,7 @@ export default function PropertyDetailPage() {
                         className="relative h-[500px]"
                       >
                         <Image
-                          src={property.galeriaDeFotos[currentGalleryIndex]?.url || property.galeriaDeFotos[currentGalleryIndex]}
+                          src={property.galeriaDeFotos[currentGalleryIndex]?.url || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
                           alt={`Galeria ${currentGalleryIndex + 1}`}
                           className="w-full h-full object-cover"
                           width={1200}
@@ -162,7 +162,7 @@ export default function PropertyDetailPage() {
                             whileHover={{ scale: 1.05 }}
                           >
                             <Image
-                              src={image?.url || image}
+                              src={image?.url}
                               alt={`Thumbnail ${index + 1}`}
                               className="w-full h-full object-cover"
                               width={96}
