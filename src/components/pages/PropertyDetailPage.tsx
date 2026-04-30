@@ -94,7 +94,7 @@ export default function PropertyDetailPage() {
             </section>
 
             {/* Gallery Section */}
-            {property.galeriaDeFotos && property.galeriaDeFotos.length > 0 && (
+            {property.galeriaDeFotos && Array.isArray(property.galeriaDeFotos) && property.galeriaDeFotos.length > 0 && (
               <section className="w-full py-20 bg-white border-b border-foreground/10">
                 <div className="max-w-[100rem] mx-auto px-20">
                   <motion.div
@@ -114,7 +114,7 @@ export default function PropertyDetailPage() {
                         className="relative h-[500px]"
                       >
                         <Image
-                          src={property.galeriaDeFotos[currentGalleryIndex]?.url}
+                          src={property.galeriaDeFotos[currentGalleryIndex]?.url || property.galeriaDeFotos[currentGalleryIndex]}
                           alt={`Galeria ${currentGalleryIndex + 1}`}
                           className="w-full h-full object-cover"
                           width={1200}
@@ -162,7 +162,7 @@ export default function PropertyDetailPage() {
                             whileHover={{ scale: 1.05 }}
                           >
                             <Image
-                              src={image?.url}
+                              src={image?.url || image}
                               alt={`Thumbnail ${index + 1}`}
                               className="w-full h-full object-cover"
                               width={96}
