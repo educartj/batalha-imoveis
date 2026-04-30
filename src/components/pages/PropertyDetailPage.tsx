@@ -103,7 +103,7 @@ export default function PropertyDetailPage() {
                     transition={{ duration: 0.6, delay: 0.1 }}
                   >
                     <h2 className="font-heading text-4xl text-primary mb-12">Galeria de Imagens</h2>
-
+                    
                     {/* Main Gallery Image */}
                     <div className="relative mb-8 rounded-xl overflow-hidden bg-background">
                       <motion.div
@@ -162,7 +162,7 @@ export default function PropertyDetailPage() {
                             whileHover={{ scale: 1.05 }}
                           >
                             <Image
-                              src={image?.url}
+                              src={image?.url || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
                               alt={`Thumbnail ${index + 1}`}
                               className="w-full h-full object-cover"
                               width={96}
@@ -313,7 +313,7 @@ export default function PropertyDetailPage() {
                       <div className="bg-primary rounded-xl p-8 text-primary-foreground">
                         <h3 className="font-heading text-2xl mb-4">Precisa de Ajuda?</h3>
                         <p className="font-paragraph text-base text-primary-foreground/90 mb-6 leading-relaxed">
-                          Nossa equipe está pronta para tirar todas as suas dúvidas e ajudá-lo
+                          Nossa equipe está pronta para tirar todas as suas dúvidas e ajudá-lo 
                           a encontrar o imóvel perfeito.
                         </p>
                         <div className="space-y-3 font-paragraph text-sm">
