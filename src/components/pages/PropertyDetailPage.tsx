@@ -91,6 +91,26 @@ export default function PropertyDetailPage() {
               </div>
             </section>
 
+            {/* Gallery Section */}
+            <section className="w-full py-20 bg-white border-b border-foreground/10">
+              <div className="max-w-[100rem] mx-auto px-20">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  <h2 className="font-heading text-4xl text-primary mb-12">Galeria de Imagens e Vídeos</h2>
+                  <div className="flex items-center justify-center min-h-[400px] bg-background rounded-xl border-2 border-dashed border-foreground/20">
+                    <div className="text-center">
+                      <p className="font-paragraph text-lg text-foreground/60 mb-4">
+                        Coloque aqui a galeria de imagens e vídeos de cada imóvel
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </section>
+
             {/* Property Details */}
             <section className="w-full py-20 bg-background">
               <div className="max-w-[100rem] mx-auto px-20">
