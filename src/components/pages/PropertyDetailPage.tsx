@@ -32,6 +32,28 @@ export default function PropertyDetailPage() {
     }
   };
 
+  // Helper function to detect if media is a video
+  const isVideoMedia = (mediaUrl: string): boolean => {
+    if (!mediaUrl) return false;
+    const videoExtensions = /\.(mp4|webm|ogg|mov|avi|mkv|m4v|flv|wmv|3gp)$/i;
+    return videoExtensions.test(mediaUrl);
+  };
+
+  // Get filtered media items
+  const getFilteredMedia = () => {
+    if (!property?.galeriaDeFotos) return [];
+    return property.galeriaDeFotos.filter((media: any) => {
+      const mediaUrl = typeof media === 'string' ? media : (media?.url || media?.src || media?.image || '');
+      const isVideo = isVideoMedia(mediaUrl);
+      
+      if (mediaFilter === 'photos') return !isVideo;
+      if (mediaFilter === 'videos') return isVideo;
+      return true;
+    });
+  };
+
+  const filteredMedia = getFilteredMedia();
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -211,64 +233,74 @@ export default function PropertyDetailPage() {
                           </div>
                           
                           {/* Main Gallery Grid */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                            {property.galeriaDeFotos.map((media: any, index: number) => {
-                              const mediaUrl = typeof media === 'string' 
-                                ? media 
-                                : (media?.url || media?.src || media?.image || '');
-                              
-                              // Detect if it's a video based on file extension or type
-                              const isVideo = mediaUrl && /\.(mp4|webm|ogg|mov|avi|mkv)$/i.test(mediaUrl);
-                              
-                              // Apply filter
-                              if (mediaFilter === 'photos' && isVideo) return null;
-                              if (mediaFilter === 'videos' && !isVideo) return null;
-                              
-                              return (
-                              <motion.div
-                                key={index}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.4, delay: index * 0.05 }}
-                                className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden cursor-pointer group"
-                                onClick={() => setSelectedImageIndex(index)}
-                              >
-                                {isVideo ? (
-                                  <>
-                                    <video
-                                      src={mediaUrl}
-                                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                    />
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
-                                          <Play className="w-6 h-6 text-primary fill-primary" />
+                          {filteredMedia.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                              {filteredMedia.map((media: any, displayIndex: number) => {
+                                const mediaUrl = typeof media === 'string' 
+                                  ? media 
+                                  : (media?.url || media?.src || media?.image || '');
+                                
+                                // Detect if it's a video based on file extension or type
+                                const isVideo = isVideoMedia(mediaUrl);
+                                
+                                // Find the actual index in the original gallery for lightbox navigation
+                                const actualIndex = property.galeriaDeFotos.findIndex((m: any) => {
+                                  const mUrl = typeof m === 'string' ? m : (m?.url || m?.src || m?.image || '');
+                                  return mUrl === mediaUrl;
+                                });
+                                
+                                return (
+                                <motion.div
+                                  key={displayIndex}
+                                  initial={{ opacity: 0, scale: 0.95 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{ duration: 0.4, delay: displayIndex * 0.05 }}
+                                  className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden cursor-pointer group"
+                                  onClick={() => setSelectedImageIndex(actualIndex)}
+                                >
+                                  {isVideo ? (
+                                    <>
+                                      <video
+                                        src={mediaUrl}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                      />
+                                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                          <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
+                                            <Play className="w-6 h-6 text-primary fill-primary" />
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  </>
-                                ) : (
-                                  <>
-                                    <Image
-                                      src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
-                                      alt={`Galeria ${index + 1}`}
-                                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                      width={600}
-                                      height={600}
-                                    />
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
-                                          <span className="text-primary font-semibold">+</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Image
+                                        src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                        alt={`Galeria ${displayIndex + 1}`}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                        width={600}
+                                        height={600}
+                                      />
+                                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                          <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
+                                            <span className="text-primary font-semibold">+</span>
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  </>
-                                )}
-                              </motion.div>
-                              );
-                            })}
-                          </div>
+                                    </>
+                                  )}
+                                </motion.div>
+                                );
+                              })}
+                            </div>
+                          ) : (
+                            <div className="text-center py-12 bg-foreground/5 rounded-lg">
+                              <p className="font-paragraph text-lg text-foreground/60">
+                                Nenhum {mediaFilter === 'videos' ? 'vídeo' : mediaFilter === 'photos' ? 'foto' : 'mídia'} disponível
+                              </p>
+                            </div>
+                          )}
                         </div>
                       )}
 
