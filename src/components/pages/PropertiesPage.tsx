@@ -85,15 +85,14 @@ export default function PropertiesPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
       {/* Hero Section */}
       <section className="w-full bg-primary py-24">
-        <div className="max-w-[100rem] mx-auto px-20">
+        <div className="max-w-[100rem] mx-auto py-0 px-[3px]">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center max-w-4xl mx-auto"
+            className="text-center max-w-4xl mx-auto py-0 px-5"
           >
             <div className="flex items-center justify-center gap-3 mb-8">
               <div className="h-px w-12 bg-accent-gold" />
@@ -113,10 +112,9 @@ export default function PropertiesPage() {
           </motion.div>
         </div>
       </section>
-
       {/* Filters Section */}
       <section className="w-full bg-white py-12 border-b border-foreground/10">
-        <div className="max-w-[100rem] mx-auto px-20">
+        <div className="max-w-[100rem] mx-auto py-0 px-[30px]">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
             {/* Search */}
             <div className="md:col-span-2 relative">
@@ -177,10 +175,9 @@ export default function PropertiesPage() {
           </div>
         </div>
       </section>
-
       {/* Properties Grid */}
       <section className="w-full py-20 bg-background">
-        <div className="max-w-[100rem] mx-auto px-20">
+        <div className="max-w-[100rem] mx-auto py-0 px-2.5">
           <div className="min-h-[600px]">
             {isLoading ? null : filteredProperties.length > 0 ? (
               <>
@@ -276,7 +273,6 @@ export default function PropertiesPage() {
           </div>
         </div>
       </section>
-
       <Footer />
     </div>
   );

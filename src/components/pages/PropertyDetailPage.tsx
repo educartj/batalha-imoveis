@@ -70,7 +70,7 @@ export default function PropertyDetailPage() {
           <>
             {/* Hero Image */}
             <section className="w-full bg-white">
-              <div className="max-w-[100rem] mx-auto py-12 px-[79px]">
+              <div className="max-w-[100rem] mx-auto py-12 px-2.5">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
