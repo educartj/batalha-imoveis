@@ -250,47 +250,47 @@ export default function PropertyDetailPage() {
                                 });
                                 
                                 return (
-                                <motion.div
-                                  key={displayIndex}
-                                  initial={{ opacity: 0, scale: 0.95 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  transition={{ duration: 0.4, delay: displayIndex * 0.05 }}
-                                  className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden cursor-pointer group"
-                                  onClick={() => setSelectedImageIndex(actualIndex)}
-                                >
-                                  {isVideo ? (
-                                    <>
-                                      <video
-                                        src={mediaUrl}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                      />
-                                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                          <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
-                                            <Play className="w-6 h-6 text-primary fill-primary" />
+                                  <motion.div
+                                    key={displayIndex}
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ duration: 0.4, delay: displayIndex * 0.05 }}
+                                    className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden cursor-pointer group"
+                                    onClick={() => setSelectedImageIndex(actualIndex)}
+                                  >
+                                    {isVideo ? (
+                                      <>
+                                        <video
+                                          src={mediaUrl}
+                                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                        />
+                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
+                                              <Play className="w-6 h-6 text-primary fill-primary" />
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Image
-                                        src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
-                                        alt={`Galeria ${displayIndex + 1}`}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                        width={600}
-                                        height={600}
-                                      />
-                                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                          <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
-                                            <span className="text-primary font-semibold">+</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Image
+                                          src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                          alt={`Galeria ${displayIndex + 1}`}
+                                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                          width={600}
+                                          height={600}
+                                        />
+                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
+                                              <span className="text-primary font-semibold">+</span>
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    </>
-                                  )}
-                                </motion.div>
+                                      </>
+                                    )}
+                                  </motion.div>
                                 );
                               })}
                             </div>
