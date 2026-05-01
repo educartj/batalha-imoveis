@@ -342,70 +342,88 @@ export default function PropertyDetailPage() {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-2 sm:p-4"
+                          transition={{ duration: 0.2 }}
+                          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
                           onClick={() => setSelectedImageIndex(null)}
                         >
                           <motion.div
-                            initial={{ scale: 0.9, opacity: 0 }}
+                            initial={{ scale: 0.95, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.9, opacity: 0 }}
-                            className="relative w-full max-w-2xl sm:max-w-4xl max-h-[85vh] sm:max-h-[90vh]"
+                            exit={{ scale: 0.95, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="relative w-full max-w-6xl"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            {(() => {
-                              const selectedMedia = property.galeriaDeFotos[selectedImageIndex];
-                              const mediaUrl = typeof selectedMedia === 'string'
-                                ? selectedMedia
-                                : (selectedMedia?.url || selectedMedia?.src || selectedMedia?.image || '');
-                              const isVideo = mediaUrl && /\.(mp4|webm|ogg|mov|avi|mkv)$/i.test(mediaUrl);
-                              
-                              return isVideo ? (
-                                <video
-                                  src={mediaUrl}
-                                  controls
-                                  autoPlay
-                                  className="w-full h-full object-contain rounded-lg"
-                                />
-                              ) : (
-                                <Image
-                                  src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
-                                  alt={`Galeria ${selectedImageIndex + 1}`}
-                                  className="w-full h-full object-contain rounded-lg"
-                                  width={1000}
-                                  height={600}
-                                />
-                              );
-                            })()}
-                            
+                            {/* Media Container */}
+                            <div className="relative h-[400px] sm:h-[600px] bg-black rounded-2xl overflow-hidden flex items-center justify-center">
+                              <motion.div
+                                key={selectedImageIndex}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.4 }}
+                                className="w-full h-full flex items-center justify-center"
+                              >
+                                {(() => {
+                                  const selectedMedia = property.galeriaDeFotos[selectedImageIndex];
+                                  const mediaUrl = typeof selectedMedia === 'string'
+                                    ? selectedMedia
+                                    : (selectedMedia?.url || selectedMedia?.src || selectedMedia?.image || '');
+                                  const isVideo = mediaUrl && /\.(mp4|webm|ogg|mov|avi|mkv)$/i.test(mediaUrl);
+                                  
+                                  return isVideo ? (
+                                    <video
+                                      src={mediaUrl}
+                                      controls
+                                      autoPlay
+                                      className="w-full h-full object-contain"
+                                    />
+                                  ) : (
+                                    <Image
+                                      src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                      alt={`Galeria ${selectedImageIndex + 1}`}
+                                      className="w-full h-full object-contain"
+                                      width={1200}
+                                      height={600}
+                                    />
+                                  );
+                                })()}
+                              </motion.div>
+                            </div>
+
+                            {/* Left Arrow */}
+                            <button
+                              onClick={() => setSelectedImageIndex((prev) => 
+                                prev === 0 ? property.galeriaDeFotos.length - 1 : prev! - 1
+                              )}
+                              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-accent-gold/90 hover:bg-accent-gold text-primary rounded-full p-3 transition-all duration-300 hover:scale-110 shadow-lg"
+                            >
+                              <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+                            </button>
+
+                            {/* Right Arrow */}
+                            <button
+                              onClick={() => setSelectedImageIndex((prev) => 
+                                prev === property.galeriaDeFotos.length - 1 ? 0 : prev! + 1
+                              )}
+                              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-accent-gold/90 hover:bg-accent-gold text-primary rounded-full p-3 transition-all duration-300 hover:scale-110 shadow-lg"
+                            >
+                              <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
+                            </button>
+
                             {/* Close Button */}
                             <button
                               onClick={() => setSelectedImageIndex(null)}
-                              className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-accent-gold hover:bg-accent-gold/90 text-primary rounded-full p-1.5 sm:p-2 transition-colors"
+                              className="absolute top-4 right-4 z-10 bg-primary/80 hover:bg-primary text-primary-foreground rounded-full p-2.5 transition-all duration-300 hover:scale-110 shadow-lg"
                             >
-                              <X className="w-5 h-5 sm:w-6 sm:h-6" />
+                              <X className="w-6 h-6" />
                             </button>
 
-                            {/* Navigation */}
-                            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1 sm:gap-2 items-center bg-black/50 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full">
-                              <button
-                                onClick={() => setSelectedImageIndex((prev) => 
-                                  prev === 0 ? property.galeriaDeFotos.length - 1 : prev! - 1
-                                )}
-                                className="text-accent-gold hover:text-accent-gold/80 font-semibold text-xs sm:text-sm px-1.5 sm:px-3 py-0.5 sm:py-1"
-                              >
-                                ← Anterior
-                              </button>
-                              <span className="text-primary-foreground text-xs sm:text-sm font-paragraph">
+                            {/* Counter and Info */}
+                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-black/60 backdrop-blur-sm px-6 py-3 rounded-full">
+                              <span className="text-accent-gold font-paragraph font-semibold text-sm sm:text-base">
                                 {selectedImageIndex + 1} / {property.galeriaDeFotos.length}
                               </span>
-                              <button
-                                onClick={() => setSelectedImageIndex((prev) => 
-                                  prev === property.galeriaDeFotos.length - 1 ? 0 : prev! + 1
-                                )}
-                                className="text-accent-gold hover:text-accent-gold/80 font-semibold text-xs sm:text-sm px-1.5 sm:px-3 py-0.5 sm:py-1"
-                              >
-                                Próxima →
-                              </button>
                             </div>
                           </motion.div>
                         </motion.div>
