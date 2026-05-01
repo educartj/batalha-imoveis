@@ -34,7 +34,6 @@ export default function PropertyDetailPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
       <div className="w-full py-12 bg-white border-b border-foreground/10">
         <div className="max-w-[100rem] mx-auto px-20">
           <Link to="/imoveis">
@@ -48,7 +47,6 @@ export default function PropertyDetailPage() {
           </Link>
         </div>
       </div>
-
       <div className="min-h-[600px]">
         {isLoading ? (
           <div className="flex items-center justify-center py-32">
@@ -72,7 +70,7 @@ export default function PropertyDetailPage() {
           <>
             {/* Hero Image */}
             <section className="w-full bg-white">
-              <div className="max-w-[100rem] mx-auto px-20 py-12">
+              <div className="max-w-[100rem] mx-auto py-12 px-[79px]">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -95,7 +93,7 @@ export default function PropertyDetailPage() {
 
             {/* Property Details */}
             <section className="w-full py-20 bg-background">
-              <div className="max-w-[100rem] mx-auto px-20">
+              <div className="max-w-[100rem] mx-auto py-0 px-[30px]">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
                   {/* Main Content */}
                   <div className="lg:col-span-2">
@@ -113,9 +111,9 @@ export default function PropertyDetailPage() {
                         <span>{property.address || property.locationRegion}</span>
                       </div>
 
-                      <div className="flex items-center gap-8 mb-12 pb-12 border-b border-foreground/10">
+                      <div className="flex items-center mb-12 pb-12 border-b border-foreground/10 gap-8">
                         {property.bedrooms && (
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-3 justify-start">
                             <div className="w-12 h-12 bg-primary/5 rounded-full flex items-center justify-center">
                               <Bed className="w-6 h-6 text-accent-gold" />
                             </div>
@@ -364,7 +362,6 @@ export default function PropertyDetailPage() {
           </>
         )}
       </div>
-
       <Footer />
     </div>
   );
