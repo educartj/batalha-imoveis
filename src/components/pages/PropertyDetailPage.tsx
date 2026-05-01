@@ -36,14 +36,28 @@ export default function PropertyDetailPage() {
   const isVideoMedia = (mediaUrl: string): boolean => {
     if (!mediaUrl) return false;
     const videoExtensions = /\.(mp4|webm|ogg|mov|avi|mkv|m4v|flv|wmv|3gp)$/i;
-    return videoExtensions.test(mediaUrl);
+    const videoMimeTypes = /video\//i;
+    return videoExtensions.test(mediaUrl) || videoMimeTypes.test(mediaUrl);
+  };
+
+  // Get media URL from various formats
+  const getMediaUrl = (media: any): string => {
+    if (!media) return '';
+    if (typeof media === 'string') return media;
+    // Handle Wix media gallery format
+    if (media?.url) return media.url;
+    if (media?.src) return media.src;
+    if (media?.image) return media.image;
+    if (media?.videoUrl) return media.videoUrl;
+    if (media?.videoSrc) return media.videoSrc;
+    return '';
   };
 
   // Get filtered media items
   const getFilteredMedia = () => {
     if (!property?.galeriaDeFotos) return [];
     return property.galeriaDeFotos.filter((media: any) => {
-      const mediaUrl = typeof media === 'string' ? media : (media?.url || media?.src || media?.image || '');
+      const mediaUrl = getMediaUrl(media);
       const isVideo = isVideoMedia(mediaUrl);
       
       if (mediaFilter === 'photos') return !isVideo;
@@ -236,16 +250,14 @@ export default function PropertyDetailPage() {
                           {filteredMedia.length > 0 ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
                               {filteredMedia.map((media: any, displayIndex: number) => {
-                                const mediaUrl = typeof media === 'string' 
-                                  ? media 
-                                  : (media?.url || media?.src || media?.image || '');
+                                const mediaUrl = getMediaUrl(media);
                                 
                                 // Detect if it's a video based on file extension or type
                                 const isVideo = isVideoMedia(mediaUrl);
                                 
                                 // Find the actual index in the original gallery for lightbox navigation
                                 const actualIndex = property.galeriaDeFotos.findIndex((m: any) => {
-                                  const mUrl = typeof m === 'string' ? m : (m?.url || m?.src || m?.image || '');
+                                  const mUrl = getMediaUrl(m);
                                   return mUrl === mediaUrl;
                                 });
                                 
@@ -322,10 +334,8 @@ export default function PropertyDetailPage() {
                           >
                             {(() => {
                               const selectedMedia = property.galeriaDeFotos[selectedImageIndex];
-                              const mediaUrl = typeof selectedMedia === 'string'
-                                ? selectedMedia
-                                : (selectedMedia?.url || selectedMedia?.src || selectedMedia?.image || '');
-                              const isVideo = mediaUrl && /\.(mp4|webm|ogg|mov|avi|mkv)$/i.test(mediaUrl);
+                              const mediaUrl = getMediaUrl(selectedMedia);
+                              const isVideo = isVideoMedia(mediaUrl);
                               
                               return isVideo ? (
                                 <video
