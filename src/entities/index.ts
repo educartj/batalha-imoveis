@@ -37,8 +37,6 @@ export interface Imveis {
   galeriaDeFotos?: any;
   /** @wixFieldType number */
   cdigo?: number;
-  /** @wixFieldType video */
-  video?: string;
 }
 
 
