@@ -4,8 +4,8 @@ import { MapPin, Phone, Mail, Facebook, Instagram, Linkedin } from 'lucide-react
 export default function Footer() {
   return (
     <footer className="w-full bg-primary text-primary-foreground">
-      <div className="max-w-[100rem] mx-auto px-20 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-16">
+      <div className="max-w-[100rem] mx-auto py-20 px-5">
+        <div className="grid grid-cols-1 md:grid-cols-4 mb-16 gap-16 gap-x-[100px] gap-y-16">
           {/* Brand Column */}
           <div className="md:col-span-1">
             <div className="font-heading text-3xl mb-6">
@@ -47,6 +47,36 @@ export default function Footer() {
 
           {/* Navigation Column */}
           <div>
+            <h3 className="font-heading text-xl mb-6">Contato</h3>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-accent-gold mt-1 flex-shrink-0" />
+                <span className="font-paragraph text-base text-primary-foreground/80">
+                  Rua Principal, 123<br />
+                  Centro, São Paulo - SP
+                </span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-accent-gold flex-shrink-0" />
+                <a
+                  href="tel:+551134567890"
+                  className="font-paragraph text-base text-primary-foreground/80 hover:text-accent-gold transition-colors"
+                >
+                  (11) 3456-7890
+                </a>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-accent-gold flex-shrink-0" />
+                <a
+                href="mailto:contato@batalhaimoveis.com.br"
+                className="font-paragraph text-base text-primary-foreground/80 hover:text-accent-gold transition-colors"
+              >
+                contato@batalhaimoveis.com.br
+              </a>
+              </li>
+            </ul>
+          </div>
+        <div>
             <h3 className="font-heading text-xl mb-6">Navegação</h3>
             <ul className="space-y-4">
               <li>
@@ -97,37 +127,7 @@ export default function Footer() {
           </div>
 
           {/* Contact Column */}
-          <div>
-            <h3 className="font-heading text-xl mb-6">Contato</h3>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-accent-gold mt-1 flex-shrink-0" />
-                <span className="font-paragraph text-base text-primary-foreground/80">
-                  Rua Principal, 123<br />
-                  Centro, São Paulo - SP
-                </span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-accent-gold flex-shrink-0" />
-                <a
-                  href="tel:+551134567890"
-                  className="font-paragraph text-base text-primary-foreground/80 hover:text-accent-gold transition-colors"
-                >
-                  (11) 3456-7890
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-accent-gold flex-shrink-0" />
-                <a
-                  href="mailto:contato@batalhaimoveis.com.br"
-                  className="font-paragraph text-base text-primary-foreground/80 hover:text-accent-gold transition-colors"
-                >
-                  contato@batalhaimoveis.com.br
-                </a>
-              </li>
-            </ul>
           </div>
-        </div>
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-primary-foreground/20">
@@ -152,7 +152,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-
       {/* WhatsApp Floating Button */}
       <a
         href="https://wa.me/5511999999999"
