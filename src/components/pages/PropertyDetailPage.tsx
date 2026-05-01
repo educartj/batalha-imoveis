@@ -8,12 +8,13 @@ import { BaseCrudService } from '@/integrations';
 import { Imveis } from '@/entities';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { MapPin, Home, Bed, Bath, Maximize, ArrowLeft } from 'lucide-react';
+import { MapPin, Home, Bed, Bath, Maximize, ArrowLeft, X } from 'lucide-react';
 
 export default function PropertyDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [property, setProperty] = useState<Imveis | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   useEffect(() => {
     loadProperty();
@@ -167,6 +168,98 @@ export default function PropertyDetailPage() {
                           {property.description || 'Descrição não disponível.'}
                         </p>
                       </div>
+
+                      {/* Gallery Section */}
+                      {property.galeriaDeFotos && property.galeriaDeFotos.length > 0 && (
+                        <div className="mb-12">
+                          <h2 className="font-heading text-3xl text-primary mb-8">Galeria de Fotos</h2>
+                          
+                          {/* Main Gallery Grid */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                            {property.galeriaDeFotos.map((image: any, index: number) => (
+                              <motion.div
+                                key={index}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.4, delay: index * 0.05 }}
+                                className="relative h-64 rounded-lg overflow-hidden cursor-pointer group"
+                                onClick={() => setSelectedImageIndex(index)}
+                              >
+                                <Image
+                                  src={image.url || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                  alt={`Galeria ${index + 1}`}
+                                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                  width={400}
+                                />
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
+                                      <span className="text-primary font-semibold">+</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Lightbox Modal */}
+                      {selectedImageIndex !== null && property.galeriaDeFotos && (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+                          onClick={() => setSelectedImageIndex(null)}
+                        >
+                          <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="relative max-w-4xl w-full max-h-[90vh]"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Image
+                              src={property.galeriaDeFotos[selectedImageIndex]?.url || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                              alt={`Galeria ${selectedImageIndex + 1}`}
+                              className="w-full h-full object-contain rounded-lg"
+                              width={1000}
+                            />
+                            
+                            {/* Close Button */}
+                            <button
+                              onClick={() => setSelectedImageIndex(null)}
+                              className="absolute top-4 right-4 bg-accent-gold hover:bg-accent-gold/90 text-primary rounded-full p-2 transition-colors"
+                            >
+                              <X className="w-6 h-6" />
+                            </button>
+
+                            {/* Navigation */}
+                            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 items-center bg-black/50 px-4 py-2 rounded-full">
+                              <button
+                                onClick={() => setSelectedImageIndex((prev) => 
+                                  prev === 0 ? property.galeriaDeFotos.length - 1 : prev! - 1
+                                )}
+                                className="text-accent-gold hover:text-accent-gold/80 font-semibold text-sm px-3 py-1"
+                              >
+                                ← Anterior
+                              </button>
+                              <span className="text-primary-foreground text-sm font-paragraph">
+                                {selectedImageIndex + 1} / {property.galeriaDeFotos.length}
+                              </span>
+                              <button
+                                onClick={() => setSelectedImageIndex((prev) => 
+                                  prev === property.galeriaDeFotos.length - 1 ? 0 : prev! + 1
+                                )}
+                                className="text-accent-gold hover:text-accent-gold/80 font-semibold text-sm px-3 py-1"
+                              >
+                                Próxima →
+                              </button>
+                            </div>
+                          </motion.div>
+                        </motion.div>
+                      )}
 
                       {property.locationRegion && (
                         <div className="bg-white rounded-xl p-8 border border-foreground/5">

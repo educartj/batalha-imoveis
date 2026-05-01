@@ -33,6 +33,10 @@ export interface Imveis {
   bathrooms?: number;
   /** @wixFieldType number */
   area?: number;
+  /** @wixFieldType media_gallery */
+  galeriaDeFotos?: any;
+  /** @wixFieldType number */
+  cdigo?: number;
 }
 
 
