@@ -194,12 +194,13 @@ export default function PropertiesPage() {
                     >
                       <Link to={`/imoveis/${property._id}`}>
                         <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-foreground/5">
-                          <div className="relative h-72 overflow-hidden">
+                          <div className="relative h-[300px] md:h-[400px] lg:h-[600px] overflow-hidden">
                             <Image
                               src={property.mainImage || 'https://static.wixstatic.com/media/72153f_a3990356e8534ff99a39e119595042db~mv2.png?originWidth=384&originHeight=448'}
                               alt={property.title || 'Imóvel'}
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                              width={400}
+                              width={600}
+                              height={600}
                             />
                             <div className="absolute top-4 right-4 bg-accent-gold text-primary px-4 py-2 rounded font-paragraph text-sm font-semibold">
                               {property.status || 'Disponível'}

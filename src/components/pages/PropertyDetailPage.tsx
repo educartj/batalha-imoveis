@@ -77,13 +77,14 @@ export default function PropertyDetailPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="relative h-[600px] rounded-xl overflow-hidden"
+                  className="relative h-[400px] md:h-[600px] rounded-xl overflow-hidden"
                 >
                   <Image
                     src={property.mainImage || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
                     alt={property.title || 'Imóvel'}
                     className="w-full h-full object-cover"
                     width={1200}
+                    height={600}
                   />
                   <div className="absolute top-8 right-8 bg-accent-gold text-primary px-6 py-3 rounded font-paragraph text-base font-semibold">
                     {property.status || 'Disponível'}
@@ -187,14 +188,15 @@ export default function PropertyDetailPage() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                                className="relative h-64 rounded-lg overflow-hidden cursor-pointer group"
+                                className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden cursor-pointer group"
                                 onClick={() => setSelectedImageIndex(index)}
                               >
                                 <Image
                                   src={imageUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
                                   alt={`Galeria ${index + 1}`}
                                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                  width={400}
+                                  width={600}
+                                  height={600}
                                 />
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
                                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -237,6 +239,7 @@ export default function PropertyDetailPage() {
                                   alt={`Galeria ${selectedImageIndex + 1}`}
                                   className="w-full h-full object-contain rounded-lg"
                                   width={1000}
+                                  height={600}
                                 />
                               );
                             })()}

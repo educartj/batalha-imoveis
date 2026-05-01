@@ -267,6 +267,7 @@ const IntroSection = () => {
                   alt="Interior elegante"
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                   width={800}
+                  height={1000}
                 />
               </div>
             </motion.div>
@@ -290,12 +291,13 @@ const PropertyCard = ({ property, index }: { property: Imveis; index: number }) 
       className="group relative bg-white w-full"
     >
       <Link to={`/imoveis/${property._id}`} className="block h-full">
-        <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
+        <div className="relative h-[300px] md:h-[400px] lg:h-[600px] overflow-hidden bg-gray-100">
           <Image
             src={property.mainImage || 'https://static.wixstatic.com/media/72153f_1fc5118b7aca44ca85812a98ffaa97cf~mv2.png?originWidth=576&originHeight=448'}
             alt={property.title || 'Imóvel Batalha'}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             width={600}
+            height={600}
           />
           <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300" />
           
@@ -353,6 +355,7 @@ const ServiceAreaCard = ({ title, desc, image, delay }: { title: string, desc: s
         alt={title}
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
         width={600}
+        height={600}
       />
       <div className="absolute inset-0 bg-primary/60 group-hover:bg-primary/30 transition-colors duration-500" />
       
