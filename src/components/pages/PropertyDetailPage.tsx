@@ -34,6 +34,7 @@ export default function PropertyDetailPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+
       <div className="w-full py-12 bg-white border-b border-foreground/10">
         <div className="max-w-[100rem] mx-auto px-20">
           <Link to="/imoveis">
@@ -47,6 +48,7 @@ export default function PropertyDetailPage() {
           </Link>
         </div>
       </div>
+
       <div className="min-h-[600px]">
         {isLoading ? (
           <div className="flex items-center justify-center py-32">
@@ -75,7 +77,7 @@ export default function PropertyDetailPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="relative w-full aspect-video rounded-xl overflow-hidden"
+                  className="relative h-[600px] rounded-xl overflow-hidden"
                 >
                   <Image
                     src={property.mainImage || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
@@ -110,7 +112,7 @@ export default function PropertyDetailPage() {
                         <span>{property.address || property.locationRegion}</span>
                       </div>
 
-                      <div className="flex flex-wrap items-center gap-8 mb-12 pb-12 border-b border-foreground/10">
+                      <div className="flex items-center gap-8 mb-12 pb-12 border-b border-foreground/10">
                         {property.bedrooms && (
                           <div className="flex items-center gap-3">
                             <div className="w-12 h-12 bg-primary/5 rounded-full flex items-center justify-center">
@@ -221,7 +223,7 @@ export default function PropertyDetailPage() {
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.9, opacity: 0 }}
-                            className="relative w-full max-w-4xl h-auto flex items-center justify-center"
+                            className="relative max-w-4xl w-full max-h-[90vh]"
                             onClick={(e) => e.stopPropagation()}
                           >
                             {(() => {
@@ -230,14 +232,12 @@ export default function PropertyDetailPage() {
                                 ? selectedImage
                                 : (selectedImage?.url || selectedImage?.src || selectedImage?.image || '');
                               return (
-                                <div className="w-full max-h-[80vh] flex items-center justify-center">
-                                  <Image
-                                    src={imageUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
-                                    alt={`Galeria ${selectedImageIndex + 1}`}
-                                    className="w-auto max-h-[80vh] object-contain rounded-lg"
-                                    width={1200}
-                                  />
-                                </div>
+                                <Image
+                                  src={imageUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                  alt={`Galeria ${selectedImageIndex + 1}`}
+                                  className="w-full h-full object-contain rounded-lg"
+                                  width={1000}
+                                />
                               );
                             })()}
                             
@@ -361,6 +361,7 @@ export default function PropertyDetailPage() {
           </>
         )}
       </div>
+
       <Footer />
     </div>
   );
