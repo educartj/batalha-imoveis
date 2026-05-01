@@ -176,7 +176,12 @@ export default function PropertyDetailPage() {
                           
                           {/* Main Gallery Grid */}
                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                            {property.galeriaDeFotos.map((image: any, index: number) => (
+                            {property.galeriaDeFotos.map((image: any, index: number) => {
+                              const imageUrl = typeof image === 'string' 
+                                ? image 
+                                : (image?.url || image?.src || image?.image || '');
+                              
+                              return (
                               <motion.div
                                 key={index}
                                 initial={{ opacity: 0, scale: 0.95 }}
@@ -186,7 +191,7 @@ export default function PropertyDetailPage() {
                                 onClick={() => setSelectedImageIndex(index)}
                               >
                                 <Image
-                                  src={image.url || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                  src={imageUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
                                   alt={`Galeria ${index + 1}`}
                                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                                   width={400}
@@ -199,7 +204,8 @@ export default function PropertyDetailPage() {
                                   </div>
                                 </div>
                               </motion.div>
-                            ))}
+                              );
+                            })}
                           </div>
                         </div>
                       )}
@@ -220,12 +226,20 @@ export default function PropertyDetailPage() {
                             className="relative max-w-4xl w-full max-h-[90vh]"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <Image
-                              src={property.galeriaDeFotos[selectedImageIndex]?.url || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
-                              alt={`Galeria ${selectedImageIndex + 1}`}
-                              className="w-full h-full object-contain rounded-lg"
-                              width={1000}
-                            />
+                            {(() => {
+                              const selectedImage = property.galeriaDeFotos[selectedImageIndex];
+                              const imageUrl = typeof selectedImage === 'string'
+                                ? selectedImage
+                                : (selectedImage?.url || selectedImage?.src || selectedImage?.image || '');
+                              return (
+                                <Image
+                                  src={imageUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                  alt={`Galeria ${selectedImageIndex + 1}`}
+                                  className="w-full h-full object-contain rounded-lg"
+                                  width={1000}
+                                />
+                              );
+                            })()}
                             
                             {/* Close Button */}
                             <button
