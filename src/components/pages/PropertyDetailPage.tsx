@@ -8,7 +8,7 @@ import { BaseCrudService } from '@/integrations';
 import { Imveis } from '@/entities';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { MapPin, Home, Bed, Bath, Maximize, ArrowLeft, X } from 'lucide-react';
+import { MapPin, Home, Bed, Bath, Maximize, ArrowLeft, X, Play } from 'lucide-react';
 
 export default function PropertyDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -171,14 +171,17 @@ export default function PropertyDetailPage() {
                       {/* Gallery Section */}
                       {property.galeriaDeFotos && property.galeriaDeFotos.length > 0 && (
                         <div className="mb-12">
-                          <h2 className="font-heading text-3xl text-primary mb-8">Galeria de Fotos</h2>
+                          <h2 className="font-heading text-3xl text-primary mb-8">Galeria de Fotos e Vídeos</h2>
                           
                           {/* Main Gallery Grid */}
                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                            {property.galeriaDeFotos.map((image: any, index: number) => {
-                              const imageUrl = typeof image === 'string' 
-                                ? image 
-                                : (image?.url || image?.src || image?.image || '');
+                            {property.galeriaDeFotos.map((media: any, index: number) => {
+                              const mediaUrl = typeof media === 'string' 
+                                ? media 
+                                : (media?.url || media?.src || media?.image || '');
+                              
+                              // Detect if it's a video based on file extension or type
+                              const isVideo = mediaUrl && /\.(mp4|webm|ogg|mov|avi|mkv)$/i.test(mediaUrl);
                               
                               return (
                               <motion.div
@@ -189,20 +192,37 @@ export default function PropertyDetailPage() {
                                 className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden cursor-pointer group"
                                 onClick={() => setSelectedImageIndex(index)}
                               >
-                                <Image
-                                  src={imageUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
-                                  alt={`Galeria ${index + 1}`}
-                                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                  width={600}
-                                  height={600}
-                                />
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
-                                      <span className="text-primary font-semibold">+</span>
+                                {isVideo ? (
+                                  <>
+                                    <video
+                                      src={mediaUrl}
+                                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                    />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
+                                          <Play className="w-6 h-6 text-primary fill-primary" />
+                                        </div>
+                                      </div>
                                     </div>
-                                  </div>
-                                </div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Image
+                                      src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                      alt={`Galeria ${index + 1}`}
+                                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                      width={600}
+                                      height={600}
+                                    />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
+                                          <span className="text-primary font-semibold">+</span>
+                                        </div>\n                                      </div>
+                                    </div>
+                                  </>
+                                )}
                               </motion.div>
                               );
                             })}
@@ -227,13 +247,22 @@ export default function PropertyDetailPage() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             {(() => {
-                              const selectedImage = property.galeriaDeFotos[selectedImageIndex];
-                              const imageUrl = typeof selectedImage === 'string'
-                                ? selectedImage
-                                : (selectedImage?.url || selectedImage?.src || selectedImage?.image || '');
-                              return (
+                              const selectedMedia = property.galeriaDeFotos[selectedImageIndex];
+                              const mediaUrl = typeof selectedMedia === 'string'
+                                ? selectedMedia
+                                : (selectedMedia?.url || selectedMedia?.src || selectedMedia?.image || '');
+                              const isVideo = mediaUrl && /\.(mp4|webm|ogg|mov|avi|mkv)$/i.test(mediaUrl);
+                              
+                              return isVideo ? (
+                                <video
+                                  src={mediaUrl}
+                                  controls
+                                  autoPlay
+                                  className="w-full h-full object-contain rounded-lg"
+                                />
+                              ) : (
                                 <Image
-                                  src={imageUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                  src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
                                   alt={`Galeria ${selectedImageIndex + 1}`}
                                   className="w-full h-full object-contain rounded-lg"
                                   width={1000}
