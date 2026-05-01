@@ -233,7 +233,7 @@ export default function PropertyDetailPage() {
                                 <Image
                                   src={imageUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
                                   alt={`Galeria ${selectedImageIndex + 1}`}
-                                  className="max-w-[90vw] max-h-[80vh] object-contain rounded-lg"
+                                  className="w-auto max-h-[80vh] object-contain rounded-lg"
                                   width={1200}
                                   focalPointX={20.01338688085676}
                                   focalPointY={93.97590361445783}
