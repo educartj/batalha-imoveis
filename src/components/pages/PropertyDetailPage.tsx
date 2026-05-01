@@ -16,6 +16,7 @@ export default function PropertyDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [mediaFilter, setMediaFilter] = useState<'all' | 'photos' | 'videos'>('all');
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     loadProperty();
@@ -67,6 +68,18 @@ export default function PropertyDetailPage() {
   };
 
   const filteredMedia = getFilteredMedia();
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -400, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -246,65 +259,86 @@ export default function PropertyDetailPage() {
                             </div>
                           </div>
                           
-                          {/* Main Gallery Grid */}
+                          {/* Main Gallery - Horizontal Scroll */}
                           {filteredMedia.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                              {filteredMedia.map((media: any, displayIndex: number) => {
-                                const mediaUrl = getMediaUrl(media);
-                                
-                                // Detect if it's a video based on file extension or type
-                                const isVideo = isVideoMedia(mediaUrl);
-                                
-                                // Find the actual index in the original gallery for lightbox navigation
-                                const actualIndex = property.galeriaDeFotos.findIndex((m: any) => {
-                                  const mUrl = getMediaUrl(m);
-                                  return mUrl === mediaUrl;
-                                });
-                                
-                                return (
-                                  <motion.div
-                                    key={displayIndex}
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ duration: 0.4, delay: displayIndex * 0.05 }}
-                                    className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden cursor-pointer group"
-                                    onClick={() => setSelectedImageIndex(actualIndex)}
-                                  >
-                                    {isVideo ? (
-                                      <>
-                                        <video
-                                          src={mediaUrl}
-                                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                        />
-                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
-                                              <Play className="w-6 h-6 text-primary fill-primary" />
+                            <div className="relative">
+                              {/* Scroll Container */}
+                              <div
+                                ref={scrollContainerRef}
+                                className="flex gap-4 overflow-x-auto pb-4 scroll-smooth"
+                                style={{ scrollBehavior: 'smooth' }}
+                              >
+                                {filteredMedia.map((media: any, displayIndex: number) => {
+                                  const mediaUrl = getMediaUrl(media);
+                                  
+                                  // Detect if it's a video based on file extension or type
+                                  const isVideo = isVideoMedia(mediaUrl);
+                                  
+                                  // Find the actual index in the original gallery for lightbox navigation
+                                  const actualIndex = property.galeriaDeFotos.findIndex((m: any) => {
+                                    const mUrl = getMediaUrl(m);
+                                    return mUrl === mediaUrl;
+                                  });
+                                  
+                                  return (
+                                    <motion.div
+                                      key={displayIndex}
+                                      initial={{ opacity: 0, scale: 0.95 }}
+                                      animate={{ opacity: 1, scale: 1 }}
+                                      transition={{ duration: 0.4, delay: displayIndex * 0.05 }}
+                                      className="relative h-[280px] min-w-[380px] md:h-[350px] md:min-w-[480px] rounded-lg overflow-hidden cursor-pointer group flex-shrink-0"
+                                      onClick={() => setSelectedImageIndex(actualIndex)}
+                                    >
+                                      {isVideo ? (
+                                        <>
+                                          <video
+                                            src={mediaUrl}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                          />
+                                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                              <div className="w-16 h-16 bg-accent-gold rounded-full flex items-center justify-center shadow-lg">
+                                                <Play className="w-8 h-8 text-primary fill-primary" />
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <Image
-                                          src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
-                                          alt={`Galeria ${displayIndex + 1}`}
-                                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                          width={600}
-                                          height={600}
-                                        />
-                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
-                                              <span className="text-primary font-semibold">+</span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <Image
+                                            src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                            alt={`Galeria ${displayIndex + 1}`}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                            width={600}
+                                            height={600}
+                                          />
+                                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                              <div className="w-16 h-16 bg-accent-gold rounded-full flex items-center justify-center shadow-lg">
+                                                <span className="text-primary font-semibold text-2xl">+</span>
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                      </>
-                                    )}
-                                  </motion.div>
-                                );
-                              })}
+                                        </>
+                                      )}
+                                    </motion.div>
+                                  );
+                                })}
+                              </div>
+
+                              {/* Navigation Arrows */}
+                              <button
+                                onClick={scrollLeft}
+                                className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-6 md:-translate-x-8 z-10 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full p-3 md:p-4 transition-all duration-300 shadow-lg hover:shadow-xl"
+                              >
+                                <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+                              </button>
+                              <button
+                                onClick={scrollRight}
+                                className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-6 md:translate-x-8 z-10 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full p-3 md:p-4 transition-all duration-300 shadow-lg hover:shadow-xl"
+                              >
+                                <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+                              </button>
                             </div>
                           ) : (
                             <div className="text-center py-12 bg-foreground/5 rounded-lg">
