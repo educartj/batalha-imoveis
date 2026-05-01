@@ -111,7 +111,7 @@ export default function PropertyDetailPage() {
                         <span>{property.address || property.locationRegion}</span>
                       </div>
 
-                      <div className="flex items-center mb-12 pb-12 border-b border-foreground/10 gap-8">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mb-12 pb-12 border-b border-foreground/10">
                         {property.bedrooms && (
                           <div className="flex items-center gap-3 justify-start">
                             <div className="w-12 h-12 bg-primary/5 rounded-full flex items-center justify-center">
