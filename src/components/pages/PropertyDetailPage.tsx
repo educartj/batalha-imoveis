@@ -221,7 +221,7 @@ export default function PropertyDetailPage() {
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.9, opacity: 0 }}
-                            className="relative w-full h-full flex items-center justify-center"
+                            className="relative w-full max-w-4xl h-auto flex items-center justify-center"
                             onClick={(e) => e.stopPropagation()}
                           >
                             {(() => {
@@ -230,14 +230,14 @@ export default function PropertyDetailPage() {
                                 ? selectedImage
                                 : (selectedImage?.url || selectedImage?.src || selectedImage?.image || '');
                               return (
-                                <Image
-                                  src={imageUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
-                                  alt={`Galeria ${selectedImageIndex + 1}`}
-                                  className="w-auto max-h-[80vh] object-contain rounded-lg"
-                                  width={1200}
-                                  focalPointX={20.01338688085676}
-                                  focalPointY={93.97590361445783}
-                                />
+                                <div className="w-full max-h-[80vh] flex items-center justify-center">
+                                  <Image
+                                    src={imageUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                    alt={`Galeria ${selectedImageIndex + 1}`}
+                                    className="w-auto max-h-[80vh] object-contain rounded-lg"
+                                    width={1200}
+                                  />
+                                </div>
                               );
                             })()}
                             
