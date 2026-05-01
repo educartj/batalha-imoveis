@@ -218,14 +218,14 @@ export default function PropertyDetailPage() {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+                          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-2 sm:p-4"
                           onClick={() => setSelectedImageIndex(null)}
                         >
                           <motion.div
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.9, opacity: 0 }}
-                            className="relative max-w-4xl w-full max-h-[90vh]"
+                            className="relative w-full max-w-2xl sm:max-w-4xl max-h-[85vh] sm:max-h-[90vh]"
                             onClick={(e) => e.stopPropagation()}
                           >
                             {(() => {
@@ -247,29 +247,29 @@ export default function PropertyDetailPage() {
                             {/* Close Button */}
                             <button
                               onClick={() => setSelectedImageIndex(null)}
-                              className="absolute top-4 right-4 bg-accent-gold hover:bg-accent-gold/90 text-primary rounded-full p-2 transition-colors"
+                              className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-accent-gold hover:bg-accent-gold/90 text-primary rounded-full p-1.5 sm:p-2 transition-colors"
                             >
-                              <X className="w-6 h-6" />
+                              <X className="w-5 h-5 sm:w-6 sm:h-6" />
                             </button>
 
                             {/* Navigation */}
-                            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 items-center bg-black/50 px-4 py-2 rounded-full">
+                            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1 sm:gap-2 items-center bg-black/50 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full">
                               <button
                                 onClick={() => setSelectedImageIndex((prev) => 
                                   prev === 0 ? property.galeriaDeFotos.length - 1 : prev! - 1
                                 )}
-                                className="text-accent-gold hover:text-accent-gold/80 font-semibold text-sm px-3 py-1"
+                                className="text-accent-gold hover:text-accent-gold/80 font-semibold text-xs sm:text-sm px-1.5 sm:px-3 py-0.5 sm:py-1"
                               >
                                 ← Anterior
                               </button>
-                              <span className="text-primary-foreground text-sm font-paragraph">
+                              <span className="text-primary-foreground text-xs sm:text-sm font-paragraph">
                                 {selectedImageIndex + 1} / {property.galeriaDeFotos.length}
                               </span>
                               <button
                                 onClick={() => setSelectedImageIndex((prev) => 
                                   prev === property.galeriaDeFotos.length - 1 ? 0 : prev! + 1
                                 )}
-                                className="text-accent-gold hover:text-accent-gold/80 font-semibold text-sm px-3 py-1"
+                                className="text-accent-gold hover:text-accent-gold/80 font-semibold text-xs sm:text-sm px-1.5 sm:px-3 py-0.5 sm:py-1"
                               >
                                 Próxima →
                               </button>
