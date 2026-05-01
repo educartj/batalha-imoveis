@@ -15,6 +15,7 @@ export default function PropertyDetailPage() {
   const [property, setProperty] = useState<Imveis | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [mediaFilter, setMediaFilter] = useState<'all' | 'photos' | 'videos'>('all');
 
   useEffect(() => {
     loadProperty();
@@ -171,7 +172,43 @@ export default function PropertyDetailPage() {
                       {/* Gallery Section */}
                       {property.galeriaDeFotos && property.galeriaDeFotos.length > 0 && (
                         <div className="mb-12">
-                          <h2 className="font-heading text-3xl text-primary mb-8">Galeria de Fotos e Vídeos</h2>
+                          <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+                            <h2 className="font-heading text-3xl text-primary">Galeria de Fotos e Vídeos</h2>
+                            
+                            {/* Filter Buttons */}
+                            <div className="flex gap-3">
+                              <button
+                                onClick={() => setMediaFilter('all')}
+                                className={`px-4 py-2 rounded-lg font-paragraph font-semibold transition-colors ${
+                                  mediaFilter === 'all'
+                                    ? 'bg-primary text-primary-foreground'
+                                    : 'bg-foreground/5 text-foreground hover:bg-foreground/10'
+                                }`}
+                              >
+                                Todos
+                              </button>
+                              <button
+                                onClick={() => setMediaFilter('photos')}
+                                className={`px-4 py-2 rounded-lg font-paragraph font-semibold transition-colors ${
+                                  mediaFilter === 'photos'
+                                    ? 'bg-primary text-primary-foreground'
+                                    : 'bg-foreground/5 text-foreground hover:bg-foreground/10'
+                                }`}
+                              >
+                                Fotos
+                              </button>
+                              <button
+                                onClick={() => setMediaFilter('videos')}
+                                className={`px-4 py-2 rounded-lg font-paragraph font-semibold transition-colors ${
+                                  mediaFilter === 'videos'
+                                    ? 'bg-primary text-primary-foreground'
+                                    : 'bg-foreground/5 text-foreground hover:bg-foreground/10'
+                                }`}
+                              >
+                                Vídeos
+                              </button>
+                            </div>
+                          </div>
                           
                           {/* Main Gallery Grid */}
                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
@@ -182,6 +219,10 @@ export default function PropertyDetailPage() {
                               
                               // Detect if it's a video based on file extension or type
                               const isVideo = mediaUrl && /\.(mp4|webm|ogg|mov|avi|mkv)$/i.test(mediaUrl);
+                              
+                              // Apply filter
+                              if (mediaFilter === 'photos' && isVideo) return null;
+                              if (mediaFilter === 'videos' && !isVideo) return null;
                               
                               return (
                               <motion.div
@@ -219,7 +260,8 @@ export default function PropertyDetailPage() {
                                       <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                         <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
                                           <span className="text-primary font-semibold">+</span>
-                                        </div>\n                                      </div>
+                                        </div>
+                                      </div>
                                     </div>
                                   </>
                                 )}
