@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
@@ -8,7 +8,7 @@ import { BaseCrudService } from '@/integrations';
 import { Imveis } from '@/entities';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { MapPin, Home, Bed, Bath, Maximize, ArrowLeft, X, Play } from 'lucide-react';
+import { MapPin, Home, Bed, Bath, Maximize, ArrowLeft, X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function PropertyDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -16,6 +16,7 @@ export default function PropertyDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [mediaFilter, setMediaFilter] = useState<'all' | 'photos' | 'videos'>('all');
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     loadProperty();
@@ -53,6 +54,18 @@ export default function PropertyDetailPage() {
   };
 
   const filteredMedia = getFilteredMedia();
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -400, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -232,67 +245,86 @@ export default function PropertyDetailPage() {
                             </div>
                           </div>
                           
-                          {/* Main Gallery Grid */}
+                          {/* Main Gallery - Horizontal Scroll */}
                           {filteredMedia.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                              {filteredMedia.map((media: any, displayIndex: number) => {
-                                const mediaUrl = typeof media === 'string' 
-                                  ? media 
-                                  : (media?.url || media?.src || media?.image || '');
-                                
-                                // Detect if it's a video based on file extension or type
-                                const isVideo = isVideoMedia(mediaUrl);
-                                
-                                // Find the actual index in the original gallery for lightbox navigation
-                                const actualIndex = property.galeriaDeFotos.findIndex((m: any) => {
-                                  const mUrl = typeof m === 'string' ? m : (m?.url || m?.src || m?.image || '');
-                                  return mUrl === mediaUrl;
-                                });
-                                
-                                return (
-                                <motion.div
-                                  key={displayIndex}
-                                  initial={{ opacity: 0, scale: 0.95 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  transition={{ duration: 0.4, delay: displayIndex * 0.05 }}
-                                  className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden cursor-pointer group"
-                                  onClick={() => setSelectedImageIndex(actualIndex)}
-                                >
-                                  {isVideo ? (
-                                    <>
-                                      <video
-                                        src={mediaUrl}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                      />
-                                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                          <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
-                                            <Play className="w-6 h-6 text-primary fill-primary" />
+                            <div className="relative mb-8">
+                              {/* Scroll Container */}
+                              <div
+                                ref={scrollContainerRef}
+                                className="flex gap-4 overflow-x-auto scroll-smooth pb-4 px-2 -mx-2"
+                                style={{ scrollBehavior: 'smooth', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                              >
+                                {filteredMedia.map((media: any, displayIndex: number) => {
+                                  const mediaUrl = typeof media === 'string' 
+                                    ? media 
+                                    : (media?.url || media?.src || media?.image || '');
+                                  
+                                  const isVideo = isVideoMedia(mediaUrl);
+                                  
+                                  const actualIndex = property.galeriaDeFotos.findIndex((m: any) => {
+                                    const mUrl = typeof m === 'string' ? m : (m?.url || m?.src || m?.image || '');
+                                    return mUrl === mediaUrl;
+                                  });
+                                  
+                                  return (
+                                    <motion.div
+                                      key={displayIndex}
+                                      initial={{ opacity: 0, scale: 0.95 }}
+                                      animate={{ opacity: 1, scale: 1 }}
+                                      transition={{ duration: 0.4, delay: displayIndex * 0.05 }}
+                                      className="flex-shrink-0 w-[350px] h-[300px] rounded-lg overflow-hidden cursor-pointer group relative"
+                                      onClick={() => setSelectedImageIndex(actualIndex)}
+                                    >
+                                      {isVideo ? (
+                                        <>
+                                          <video
+                                            src={mediaUrl}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                          />
+                                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                              <div className="w-16 h-16 bg-accent-gold rounded-full flex items-center justify-center">
+                                                <Play className="w-8 h-8 text-primary fill-primary" />
+                                              </div>
+                                            </div>
                                           </div>
-                                        </div>
-                                      </div>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Image
-                                        src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
-                                        alt={`Galeria ${displayIndex + 1}`}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                        width={600}
-                                        height={600}
-                                      />
-                                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                          <div className="w-12 h-12 bg-accent-gold rounded-full flex items-center justify-center">
-                                            <span className="text-primary font-semibold">+</span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <Image
+                                            src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                            alt={`Galeria ${displayIndex + 1}`}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                            width={350}
+                                            height={300}
+                                          />
+                                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                              <div className="w-16 h-16 bg-accent-gold rounded-full flex items-center justify-center">
+                                                <span className="text-primary font-semibold text-2xl">+</span>
+                                              </div>
+                                            </div>
                                           </div>
-                                        </div>
-                                      </div>
-                                    </>
-                                  )}
-                                </motion.div>
-                                );
-                              })}
+                                        </>
+                                      )}
+                                    </motion.div>
+                                  );
+                                })}
+                              </div>
+
+                              {/* Navigation Arrows */}
+                              <button
+                                onClick={scrollLeft}
+                                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 z-10 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full p-3 transition-all duration-300 hover:scale-110 shadow-lg"
+                              >
+                                <ChevronLeft className="w-8 h-8" />
+                              </button>
+                              <button
+                                onClick={scrollRight}
+                                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 z-10 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full p-3 transition-all duration-300 hover:scale-110 shadow-lg"
+                              >
+                                <ChevronRight className="w-8 h-8" />
+                              </button>
                             </div>
                           ) : (
                             <div className="text-center py-12 bg-foreground/5 rounded-lg">
