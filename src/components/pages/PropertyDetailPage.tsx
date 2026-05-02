@@ -368,7 +368,7 @@ export default function PropertyDetailPage() {
                                   const selectedMedia = property.galeriaDeFotos[selectedImageIndex];
                                   const mediaUrl = typeof selectedMedia === 'string'
                                     ? selectedMedia
-                                    : (selectedMedia?.url || selectedMedia?.src || selectedMedia?.image || '');
+                                    : (selectedMedia?.url || selectedMedia?.src || selectedMedia?.image ||selectedMedia?.image || '');
                                   const isVideo = mediaUrl && /\.(mp4|webm|ogg|mov|avi|mkv)$/i.test(mediaUrl);
 
                                   return isVideo ? (
