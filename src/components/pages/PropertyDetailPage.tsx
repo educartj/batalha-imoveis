@@ -355,7 +355,7 @@ export default function PropertyDetailPage() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             {/* Media Container */}
-                            <div className="relative h-[400px] sm:h-[600px] bg-black rounded-2xl overflow-hidden flex items-center justify-center">
+                            <div className="relative h-[400px] sm:h-[600px] rounded-2xl overflow-hidden flex items-center justify-center bg-gradient-to-br from-foreground/5 via-foreground/10 to-foreground/5">
                               <motion.div
                                 key={selectedImageIndex}
                                 initial={{ opacity: 0 }}
@@ -376,13 +376,13 @@ export default function PropertyDetailPage() {
                                       src={mediaUrl}
                                       controls
                                       autoPlay
-                                      className="w-full h-full object-contain"
+                                      className="max-h-full max-w-full object-contain"
                                     />
                                   ) : (
                                     <Image
                                       src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
                                       alt={`Galeria ${selectedImageIndex + 1}`}
-                                      className="w-full h-full object-contain"
+                                      className="max-h-full max-w-full object-contain"
                                       width={1200}
                                       height={600}
                                     />
