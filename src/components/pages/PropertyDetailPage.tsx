@@ -46,7 +46,7 @@ export default function PropertyDetailPage() {
     return property.galeriaDeFotos.filter((media: any) => {
       const mediaUrl = typeof media === 'string' ? media : (media?.url || media?.src || media?.image || '');
       const isVideo = isVideoMedia(mediaUrl);
-      
+
       if (mediaFilter === 'photos') return !isVideo;
       if (mediaFilter === 'videos') return isVideo;
       return true;
@@ -209,7 +209,7 @@ export default function PropertyDetailPage() {
                         <div className="mb-12">
                           <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
                             <h2 className="font-heading text-3xl text-primary">Galeria de Fotos e Vídeos</h2>
-                            
+
                             {/* Filter Buttons */}
                             <div className="flex gap-3">
                               <button
@@ -244,7 +244,7 @@ export default function PropertyDetailPage() {
                               </button>
                             </div>
                           </div>
-                          
+
                           {/* Main Gallery - Horizontal Scroll */}
                           {filteredMedia.length > 0 ? (
                             <div className="relative mb-8">
@@ -255,17 +255,17 @@ export default function PropertyDetailPage() {
                                 style={{ scrollBehavior: 'smooth', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                               >
                                 {filteredMedia.map((media: any, displayIndex: number) => {
-                                  const mediaUrl = typeof media === 'string' 
-                                    ? media 
+                                  const mediaUrl = typeof media === 'string'
+                                    ? media
                                     : (media?.url || media?.src || media?.image || '');
-                                  
+
                                   const isVideo = isVideoMedia(mediaUrl);
-                                  
+
                                   const actualIndex = property.galeriaDeFotos.findIndex((m: any) => {
                                     const mUrl = typeof m === 'string' ? m : (m?.url || m?.src || m?.image || '');
                                     return mUrl === mediaUrl;
                                   });
-                                  
+
                                   return (
                                     <motion.div
                                       key={displayIndex}
@@ -355,7 +355,7 @@ export default function PropertyDetailPage() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             {/* Media Container */}
-                            <div className="relative h-[600px] sm:h-[600px] rounded-2xl overflow-hidden flex items-center justify-center bg-gradient-to-br from-foreground/5 via-foreground/10 to-foreground/5">
+                            <div className="relative h-[600px] sm:h-[800px] rounded-2xl overflow-hidden flex items-center justify-center bg-gradient-to-br from-foreground/5 via-foreground/10 to-foreground/5">
                               <motion.div
                                 key={selectedImageIndex}
                                 initial={{ opacity: 0 }}
@@ -370,7 +370,7 @@ export default function PropertyDetailPage() {
                                     ? selectedMedia
                                     : (selectedMedia?.url || selectedMedia?.src || selectedMedia?.image || '');
                                   const isVideo = mediaUrl && /\.(mp4|webm|ogg|mov|avi|mkv)$/i.test(mediaUrl);
-                                  
+
                                   return isVideo ? (
                                     <video
                                       src={mediaUrl}
@@ -393,7 +393,7 @@ export default function PropertyDetailPage() {
 
                             {/* Left Arrow */}
                             <button
-                              onClick={() => setSelectedImageIndex((prev) => 
+                              onClick={() => setSelectedImageIndex((prev) =>
                                 prev === 0 ? property.galeriaDeFotos.length - 1 : prev! - 1
                               )}
                               className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-accent-gold/90 hover:bg-accent-gold text-primary rounded-full p-3 transition-all duration-300 hover:scale-110 shadow-lg"
@@ -403,7 +403,7 @@ export default function PropertyDetailPage() {
 
                             {/* Right Arrow */}
                             <button
-                              onClick={() => setSelectedImageIndex((prev) => 
+                              onClick={() => setSelectedImageIndex((prev) =>
                                 prev === property.galeriaDeFotos.length - 1 ? 0 : prev! + 1
                               )}
                               className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-accent-gold/90 hover:bg-accent-gold text-primary rounded-full p-3 transition-all duration-300 hover:scale-110 shadow-lg"
@@ -489,7 +489,7 @@ export default function PropertyDetailPage() {
                       <div className="bg-primary rounded-xl p-8 text-primary-foreground">
                         <h3 className="font-heading text-2xl mb-4">Precisa de Ajuda?</h3>
                         <p className="font-paragraph text-base text-primary-foreground/90 mb-6 leading-relaxed">
-                          Nossa equipe está pronta para tirar todas as suas dúvidas e ajudá-lo 
+                          Nossa equipe está pronta para tirar todas as suas dúvidas e ajudá-lo
                           a encontrar o imóvel perfeito.
                         </p>
                         <div className="space-y-3 font-paragraph text-sm">
