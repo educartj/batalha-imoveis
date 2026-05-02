@@ -1,14 +1,14 @@
-import { useEffect, useState, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Image } from '@/components/ui/image';
-import { Button } from '@/components/ui/button';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { BaseCrudService } from '@/integrations';
-import { Imveis } from '@/entities';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { MapPin, Home, Bed, Bath, Maximize, ArrowLeft, X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import Header from '@/components/Header';
+import { Button } from '@/components/ui/button';
+import { Image } from '@/components/ui/image';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { Imveis } from '@/entities';
+import { BaseCrudService } from '@/integrations';
+import { motion } from 'framer-motion';
+import { ArrowLeft, Bath, Bed, ChevronLeft, ChevronRight, Home, MapPin, Maximize, Play, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 export default function PropertyDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -377,6 +377,8 @@ export default function PropertyDetailPage() {
                                       controls
                                       autoPlay
                                       className="max-h-full max-w-full object-contain"
+                                      width={1200}
+                                      height={600}
                                     />
                                   ) : (
                                     <Image
