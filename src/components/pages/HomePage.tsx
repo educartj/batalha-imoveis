@@ -1,14 +1,14 @@
 // HPI 1.7-V
-import React, { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, useSpring, useInView, MotionValue } from 'framer-motion';
-import { Image } from '@/components/ui/image';
-import { Button } from '@/components/ui/button';
-import { BaseCrudService } from '@/integrations';
-import { Imveis } from '@/entities';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { MapPin, Home, Award, TrendingUp, ArrowRight, CheckCircle2, Phone } from 'lucide-react';
+import Header from '@/components/Header';
+import { Button } from '@/components/ui/button';
+import { Image } from '@/components/ui/image';
+import { Imveis } from '@/entities';
+import { BaseCrudService } from '@/integrations';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight, Award, Home, MapPin, Phone, TrendingUp } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // --- Utility Components for Design System ---
 
@@ -106,8 +106,8 @@ const HeroSection = () => {
 
   return (
     <section ref={containerRef} className="relative w-full h-[100vh] overflow-clip flex items-center justify-center">
-      <motion.div 
-        style={{ y, scale, opacity }} 
+      <motion.div
+        style={{ y, scale, opacity }}
         className="absolute inset-0 z-0"
       >
         <Image
@@ -168,7 +168,7 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      <motion.div 
+      <motion.div
         style={{ opacity: useTransform(scrollYProgress, [0, 0.2], [1, 0]) }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/60"
       >
@@ -183,7 +183,7 @@ const MarqueeSection = () => {
   return (
     <div className="w-full bg-primary py-6 overflow-hidden border-y border-white/10">
       <div className="flex whitespace-nowrap">
-        <motion.div 
+        <motion.div
           animate={{ x: [0, -1000] }}
           transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
           className="flex gap-16 items-center"
@@ -211,7 +211,7 @@ const IntroSection = () => {
   return (
     <section ref={ref} className="w-full py-32 bg-background relative overflow-hidden">
       <div className="absolute top-0 right-0 w-1/3 h-full bg-accent-gold/5 -skew-x-12 translate-x-20" />
-      
+
       <div className="max-w-[100rem] mx-auto px-6 md:px-12 lg:px-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div>
@@ -234,7 +234,7 @@ const IntroSection = () => {
               <p className="font-paragraph text-lg text-foreground/70 mb-10 leading-relaxed">
                 Não vendemos apenas metros quadrados; curamos experiências de vida e oportunidades de investimento que atravessam gerações.
               </p>
-              
+
               <div className="grid grid-cols-2 gap-8 mb-10">
                 <div className="flex flex-col">
                   <span className="font-heading text-4xl text-primary mb-1">30+</span>
@@ -300,13 +300,13 @@ const PropertyCard = ({ property, index }: { property: Imveis; index: number }) 
             height={600}
           />
           <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300" />
-          
+
           <div className="absolute top-4 left-4">
             <span className="bg-white/90 backdrop-blur text-primary px-3 py-1 text-xs font-bold uppercase tracking-wider">
               {property.status || 'Disponível'}
             </span>
           </div>
-          
+
           <div className="absolute bottom-0 left-0 w-full p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black/80 to-transparent">
             <span className="text-white font-paragraph text-sm font-medium flex items-center gap-2">
               Ver Detalhes <ArrowRight className="w-4 h-4" />
@@ -320,7 +320,7 @@ const PropertyCard = ({ property, index }: { property: Imveis; index: number }) 
               {property.title}
             </h3>
           </div>
-          
+
           <p className="text-foreground/60 text-sm mb-4 flex items-center gap-1">
             <MapPin className="w-3 h-3" /> {property.locationRegion || 'Consulte a localização'}
           </p>
@@ -343,7 +343,7 @@ const PropertyCard = ({ property, index }: { property: Imveis; index: number }) 
 
 const ServiceAreaCard = ({ title, desc, image, delay }: { title: string, desc: string, image: string, delay: number }) => {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -358,7 +358,7 @@ const ServiceAreaCard = ({ title, desc, image, delay }: { title: string, desc: s
         height={600}
       />
       <div className="absolute inset-0 bg-primary/60 group-hover:bg-primary/30 transition-colors duration-500" />
-      
+
       <div className="absolute inset-0 p-8 flex flex-col justify-end items-start">
         <div className="h-1 w-12 bg-accent-gold mb-6 transition-all duration-300 group-hover:w-24" />
         <h3 className="font-heading text-3xl md:text-4xl text-white mb-3 translate-y-0 group-hover:-translate-y-2 transition-transform duration-300">
@@ -399,11 +399,11 @@ export default function HomePage() {
 
       <main>
         <BatalhaImoveisSection />
-        
+
         <HeroSection />
-        
+
         <MarqueeSection />
-        
+
         <IntroSection />
 
         {/* Featured Properties Section */}
@@ -461,20 +461,20 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-white/10 border border-white/10 bg-primary-foreground/5 backdrop-blur-sm">
-              <ServiceAreaCard 
-                title="Interior de SP" 
+              <ServiceAreaCard
+                title="Interior de SP"
                 desc="Onde nossa história começou. Imóveis residenciais e comerciais nas melhores localizações."
                 image="https://static.wixstatic.com/media/72153f_d16c630ae3774f67ab8b816435e123c9~mv2.png?originWidth=576&originHeight=448"
                 delay={0}
               />
-              <ServiceAreaCard 
-                title="Litoral Norte" 
+              <ServiceAreaCard
+                title="Litoral Norte"
                 desc="Refúgios exclusivos em São Sebastião, Ilhabela e Caraguatatuba."
                 image="https://static.wixstatic.com/media/72153f_d2dffb6c2a4d44689357842a854911e2~mv2.png?originWidth=576&originHeight=448"
                 delay={0.2}
               />
-              <ServiceAreaCard 
-                title="Portugal" 
+              <ServiceAreaCard
+                title="Portugal"
                 desc="Assessoria completa para investimentos internacionais e Golden Visa."
                 image="https://static.wixstatic.com/media/72153f_7dececda6afb45459eb6e9153f01f42e~mv2.png?originWidth=576&originHeight=448"
                 delay={0.4}
@@ -493,7 +493,7 @@ export default function HomePage() {
                 { icon: MapPin, val: "3", label: "Regiões Ativas" },
                 { icon: TrendingUp, val: "98%", label: "Satisfação" }
               ].map((stat, i) => (
-                <motion.div 
+                <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -526,10 +526,10 @@ export default function HomePage() {
               <p className="font-paragraph text-xl text-foreground/60 mb-12 max-w-2xl mx-auto">
                 Nossa equipe de corretores especialistas está pronta para oferecer uma consultoria personalizada.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row justify-center gap-6">
                 <a
-                  href="https://wa.me/5511999999999"
+                  href="https://wa.me/5515"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block"
@@ -546,7 +546,7 @@ export default function HomePage() {
               </div>
             </motion.div>
           </div>
-          
+
           {/* Background decoration */}
           <div className="absolute left-0 bottom-0 w-64 h-64 border-l-2 border-b-2 border-accent-gold/20 m-10" />
           <div className="absolute right-0 top-0 w-64 h-64 border-r-2 border-t-2 border-accent-gold/20 m-10" />
