@@ -51,9 +51,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-accent-gold mt-1 flex-shrink-0" />
-                <span className="font-paragraph text-base text-primary-foreground/80">
-                  Rua Principal, 123<br />
-                  Centro, São Paulo - SP
+                <span className="font-paragraph text-base text-primary-foreground/80">Cerquilha, São Paulo - SP
                 </span>
               </li>
               <li className="flex items-center gap-3">
