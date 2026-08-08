@@ -60,7 +60,7 @@ export default function Header() {
         {/* WhatsApp Button - Desktop */}
         <div className="hidden md:flex flex-shrink-0">
           <a
-            href="https://wa.me/5515"
+            href="https://wa.me/5515981411383"
             target="_blank"
             rel="noopener noreferrer"
           >
