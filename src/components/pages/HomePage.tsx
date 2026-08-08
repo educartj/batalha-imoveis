@@ -529,7 +529,7 @@ export default function HomePage() {
 
               <div className="flex flex-col sm:flex-row justify-center gap-6">
                 <a
-                  href="https://wa.me/5515"
+                  href="https://wa.me/5515981411383"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block"
