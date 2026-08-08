@@ -153,12 +153,12 @@ export default function TeamPage() {
                 Pronto para Começar?
               </h2>
               <p className="font-paragraph text-xl text-primary-foreground/90 mb-10 max-w-2xl mx-auto">
-                Entre em contato com nossa equipe e descubra como podemos ajudá-lo 
+                Entre em contato com nossa equipe e descubra como podemos ajudá-lo
                 a encontrar o imóvel dos seus sonhos
               </p>
               <div className="flex flex-wrap gap-6 justify-center">
                 <a
-                  href="https://wa.me/5511999999999"
+                  href="https://wa.me/5515981411383"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
