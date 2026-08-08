@@ -2,11 +2,50 @@ import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { Award, Users, TrendingUp, Shield, Heart, Target } from 'lucide-react';
 
 export default function AboutPage() {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Batalha Imóveis",
+    "description": "Especialistas em imóveis de alto padrão há mais de 30 anos. Conectando sonhos a endereços nobres no interior de São Paulo, Litoral Norte e Portugal.",
+    "url": "https://seu-dominio.com.br/sobre",
+    "foundingDate": "1994",
+    "telephone": "+5515981411383",
+    "email": "contato@batalhaimoveis.com.br",
+    "areaServed": [
+      {
+        "@type": "Place",
+        "name": "Interior de São Paulo"
+      },
+      {
+        "@type": "Place",
+        "name": "Litoral Norte"
+      },
+      {
+        "@type": "Place",
+        "name": "Portugal"
+      }
+    ],
+    "sameAs": [
+      "https://www.facebook.com/batalhaimoveis",
+      "https://www.instagram.com/batalhaimoveis",
+      "https://wa.me/5515981411383"
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Sobre Batalha Imóveis - 30 Anos de Tradição e Excelência"
+        description="Conheça a história da Batalha Imóveis. Desde 1994, somos especialistas em imóveis de alto padrão no interior de SP, Litoral Norte e Portugal. Tradição, confiança e excelência."
+        canonical="/sobre"
+        keywords="sobre batalha imóveis, história imobiliária, corretora de imóveis, tradição, excelência"
+        ogType="website"
+        structuredData={structuredData}
+      />
       <Header />
 
       {/* Hero Section */}

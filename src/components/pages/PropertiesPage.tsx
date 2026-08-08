@@ -9,6 +9,7 @@ import { BaseCrudService } from '@/integrations';
 import { Imveis } from '@/entities';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { MapPin, Search } from 'lucide-react';
 
 export default function PropertiesPage() {
@@ -82,8 +83,48 @@ export default function PropertiesPage() {
   const uniqueStatuses = Array.from(new Set(properties.map((p) => p.status).filter(Boolean)));
   const uniqueRegions = Array.from(new Set(properties.map((p) => p.locationRegion).filter(Boolean)));
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Portfólio de Imóveis - Batalha Imóveis",
+    "description": "Explore nossa seleção exclusiva de imóveis para venda e locação",
+    "url": "https://seu-dominio.com.br/imoveis",
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": filteredProperties.slice(0, 10).map((property, index) => ({
+        "@type": "RealEstateListing",
+        "position": index + 1,
+        "name": property.title,
+        "description": property.description,
+        "image": property.mainImage,
+        "price": property.price,
+        "priceCurrency": "BRL",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": property.locationRegion,
+          "addressCountry": "BR"
+        },
+        "numberOfBedrooms": property.bedrooms,
+        "numberOfBathrooms": property.bathrooms,
+        "floorSize": {
+          "@type": "QuantitativeValue",
+          "value": property.area,
+          "unitCode": "MTK"
+        }
+      }))
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Portfólio de Imóveis - Batalha Imóveis | Venda e Locação"
+        description="Explore nossa seleção exclusiva de imóveis para venda e locação. Imóveis de alto padrão no interior de São Paulo, Litoral Norte e Portugal."
+        canonical="/imoveis"
+        keywords="imóveis para venda, imóveis para locação, portfólio imobiliário, imóveis de luxo, São Paulo, Litoral Norte"
+        ogType="website"
+        structuredData={structuredData}
+      />
       <Header />
       {/* Hero Section */}
       <section className="w-full bg-primary py-24">

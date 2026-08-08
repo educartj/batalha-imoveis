@@ -1,5 +1,6 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
@@ -70,6 +71,46 @@ export default function PropertyDetailPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      {property && (
+        <SEO
+          title={`${property.title} - Batalha Imóveis | Imóvel de Alto Padrão`}
+          description={property.description ? property.description.substring(0, 160) : `${property.title} - Imóvel de alto padrão em ${property.locationRegion}. Preço: R$ ${property.price?.toLocaleString('pt-BR')}. ${property.bedrooms} quartos, ${property.bathrooms} banheiros, ${property.area}m².`}
+          canonical={`/imoveis/${id}`}
+          keywords={`${property.title}, imóvel ${property.locationRegion}, ${property.propertyType}, venda imóvel, imóvel de luxo`}
+          ogImage={property.mainImage}
+          ogType="product"
+          structuredData={{
+            "@context": "https://schema.org",
+            "@type": "RealEstateListing",
+            "name": property.title,
+            "description": property.description,
+            "image": property.mainImage,
+            "price": property.price,
+            "priceCurrency": "BRL",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": property.address,
+              "addressRegion": property.locationRegion,
+              "addressCountry": "BR"
+            },
+            "numberOfBedrooms": property.bedrooms,
+            "numberOfBathrooms": property.bathrooms,
+            "floorSize": {
+              "@type": "QuantitativeValue",
+              "value": property.area,
+              "unitCode": "MTK"
+            },
+            "propertyType": property.propertyType,
+            "availability": property.status === "Disponível" ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "agent": {
+              "@type": "RealEstateAgent",
+              "name": "Batalha Imóveis",
+              "telephone": "+5515981411383",
+              "email": "contato@batalhaimoveis.com.br"
+            }
+          }}
+        />
+      )}
       <div className="w-full py-12 bg-white border-b border-foreground/10">
         <div className="max-w-[100rem] mx-auto px-20">
           <Link to="/imoveis">

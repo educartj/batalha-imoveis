@@ -1,6 +1,7 @@
 // HPI 1.7-V
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
 import { Imveis } from '@/entities';
@@ -393,8 +394,39 @@ export default function HomePage() {
     }
   };
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "Batalha Imóveis",
+    "description": "Especialistas em imóveis de alto padrão há mais de 30 anos. Conectando sonhos a endereços nobres no interior de São Paulo, Litoral Norte e Portugal.",
+    "url": "https://seu-dominio.com.br",
+    "telephone": "+5515981411383",
+    "email": "contato@batalhaimoveis.com.br",
+    "areaServed": [
+      "Interior de São Paulo",
+      "Litoral Norte",
+      "Portugal"
+    ],
+    "foundingDate": "1994",
+    "sameAs": [
+      "https://www.facebook.com/batalhaimoveis",
+      "https://www.instagram.com/batalhaimoveis",
+      "https://wa.me/5515981411383"
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-background overflow-x-hidden selection:bg-accent-gold/30 selection:text-primary">
+      <SEO
+        title="Batalha Imóveis - Imóveis de Alto Padrão em SP, Litoral Norte e Portugal"
+        description="Especialistas em imóveis de alto padrão há mais de 30 anos. Encontre propriedades exclusivas no interior de São Paulo, Litoral Norte e Portugal. Consultoria personalizada."
+        canonical="/"
+        keywords="imóveis de alto padrão, imóveis São Paulo, imóveis Litoral Norte, imóveis Portugal, corretora de imóveis, venda de imóveis"
+        author="Batalha Imóveis"
+        ogImage="https://static.wixstatic.com/media/72153f_b04db1beaa3a4c9b90b1e20f27aeb03c~mv2.png"
+        ogType="business.business"
+        structuredData={structuredData}
+      />
       <Header />
 
       <main>

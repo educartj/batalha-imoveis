@@ -6,6 +6,7 @@ import { BaseCrudService } from '@/integrations';
 import { Team } from '@/entities';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { Mail, Phone } from 'lucide-react';
 
 export default function TeamPage() {
@@ -27,8 +28,34 @@ export default function TeamPage() {
     }
   };
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Batalha Imóveis - Equipe",
+    "description": "Conheça nossos especialistas em imóveis de alto padrão",
+    "url": "https://seu-dominio.com.br/equipe",
+    "telephone": "+5515981411383",
+    "email": "contato@batalhaimoveis.com.br",
+    "employee": teamMembers.map(member => ({
+      "@type": "Person",
+      "name": member.brokerName,
+      "jobTitle": member.role,
+      "image": member.profilePhoto,
+      "telephone": member.contactInfo,
+      "description": member.bio
+    }))
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Equipe Batalha Imóveis - Especialistas em Imóveis de Alto Padrão"
+        description="Conheça nossa equipe de corretores especializados. Profissionais experientes prontos para ajudá-lo a encontrar o imóvel dos seus sonhos."
+        canonical="/equipe"
+        keywords="equipe batalha imóveis, corretores imobiliários, especialistas imóveis, profissionais imobiliários"
+        ogType="website"
+        structuredData={structuredData}
+      />
       <Header />
 
       {/* Hero Section */}
