@@ -497,7 +497,7 @@ export default function PropertyDetailPage() {
                         <div className="space-y-3 font-paragraph text-sm">
                           <div>
                             <div className="text-primary-foreground/70 mb-1">Telefone</div>
-                            <a href="tel:+551134567890" className="text-accent-gold hover:underline">
+                            <a href="tel:+5515981411383" className="text-accent-gold hover:underline">
                               (15) 98141-1383
                             </a>
                           </div>
