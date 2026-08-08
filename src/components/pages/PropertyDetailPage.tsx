@@ -498,7 +498,7 @@ export default function PropertyDetailPage() {
                           <div>
                             <div className="text-primary-foreground/70 mb-1">Telefone</div>
                             <a href="tel:+551134567890" className="text-accent-gold hover:underline">
-                              (11) 3456-7890
+                              (15) 98141-1383
                             </a>
                           </div>
                           <div>
