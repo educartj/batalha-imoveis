@@ -1,5 +1,5 @@
+import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, Facebook, Instagram, Linkedin } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -60,7 +60,7 @@ export default function Footer() {
                   href="tel:+551134567890"
                   className="font-paragraph text-base text-primary-foreground/80 hover:text-accent-gold transition-colors"
                 >
-                  (11) 3456-7890
+                  (15) 98141-1383
                 </a>
               </li>
               <li className="flex items-center gap-3">
