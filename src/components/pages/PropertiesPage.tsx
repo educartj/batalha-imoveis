@@ -11,6 +11,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEO from '@/components/SEO';
 import { MapPin, Search } from 'lucide-react';
+import { generateSlug } from '@/lib/slug';
 
 export default function PropertiesPage() {
   const [properties, setProperties] = useState<Imveis[]>([]);
@@ -230,7 +231,7 @@ export default function PropertiesPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: index * 0.05 }}
                     >
-                      <Link to={`/imoveis/${property._id}`}>
+                      <Link to={`/imoveis/${generateSlug(property.title || '')}`}>
                         <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-foreground/5">
                           <div className="relative h-[300px] md:h-[400px] lg:h-[600px] overflow-hidden">
                             <Image

@@ -6,13 +6,14 @@ import { Image } from '@/components/ui/image';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { Imveis } from '@/entities';
 import { BaseCrudService } from '@/integrations';
+import { generateSlug } from '@/lib/slug';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Bath, Bed, ChevronLeft, ChevronRight, Home, MapPin, Maximize, Play, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 export default function PropertyDetailPage() {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const [property, setProperty] = useState<Imveis | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
@@ -21,12 +22,14 @@ export default function PropertyDetailPage() {
 
   useEffect(() => {
     loadProperty();
-  }, [id]);
+  }, [slug]);
 
   const loadProperty = async () => {
     try {
-      const data = await BaseCrudService.getById<Imveis>('properties', id!);
-      setProperty(data);
+      // Fetch all properties and find the one matching the slug
+      const result = await BaseCrudService.getAll<Imveis>('properties', [], { limit: 1000 });
+      const foundProperty = result.items.find(p => generateSlug(p.title || '') === slug);
+      setProperty(foundProperty || null);
     } catch (error) {
       console.error('Error loading property:', error);
     } finally {
@@ -75,7 +78,7 @@ export default function PropertyDetailPage() {
         <SEO
           title={`${property.title} - Batalha Imóveis | Imóvel de Alto Padrão`}
           description={property.description ? property.description.substring(0, 160) : `${property.title} - Imóvel de alto padrão em ${property.locationRegion}. Preço: R$ ${property.price?.toLocaleString('pt-BR')}. ${property.bedrooms} quartos, ${property.bathrooms} banheiros, ${property.area}m².`}
-          canonical={`/imoveis/${id}`}
+          canonical={`/imoveis/${generateSlug(property.title || '')}`}
           keywords={`${property.title}, imóvel ${property.locationRegion}, ${property.propertyType}, venda imóvel, imóvel de luxo`}
           ogImage={property.mainImage}
           ogType="product"

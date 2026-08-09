@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "imoveis/:id",
+        path: "imoveis/:slug",
         element: <PropertyDetailPage />,
         routeMetadata: {
           pageIdentifier: 'property-detail',
