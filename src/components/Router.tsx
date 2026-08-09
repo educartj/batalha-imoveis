@@ -2,11 +2,11 @@ import { MemberProvider } from '@/integrations';
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
 import { ScrollToTop } from '@/lib/scroll-to-top';
 import ErrorPage from '@/integrations/errorHandlers/ErrorPage';
-import HomePage from '@/components/pages/HomePage';
-import AboutPage from '@/components/pages/AboutPage';
-import PropertiesPage from '@/components/pages/PropertiesPage';
-import PropertyDetailPage from '@/components/pages/PropertyDetailPage';
-import TeamPage from '@/components/pages/TeamPage';
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import PropertiesPage from './pages/PropertiesPage';
+import PropertyDetailPage from './pages/PropertyDetailPage';
+import TeamPage from './pages/TeamPage';
 
 // Layout component that includes ScrollToTop
 function Layout() {
