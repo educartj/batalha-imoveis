@@ -23,7 +23,7 @@ export default function SEO({
   structuredData,
   noindex = false,
 }: SEOProps) {
-  const siteUrl = 'https://seu-dominio.com.br'; // Substitua pelo seu domínio real
+  const siteUrl = 'https://www.batalhaimoveis.com.br'; // Substitua pelo seu domínio real
   const fullCanonical = canonical ? `${siteUrl}${canonical}` : siteUrl;
   const fullOgImage = ogImage ? `${siteUrl}${ogImage}` : `${siteUrl}/og-image.jpg`;
 
