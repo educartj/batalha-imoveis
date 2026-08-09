@@ -248,27 +248,6 @@ export default function PropertyDetailPage() {
                         </p>
                       </div>
 
-                      {/* Video Section */}
-                      {property.video && (
-                        <div className="mb-12">
-                          <h2 className="font-heading text-3xl text-primary mb-6">Vídeo do Imóvel</h2>
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="relative w-full rounded-xl overflow-hidden bg-black"
-                          >
-                            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-                              <video
-                                src={property.video}
-                                controls
-                                className="absolute top-0 left-0 w-full h-full"
-                              />
-                            </div>
-                          </motion.div>
-                        </div>
-                      )}
-
                       {/* Gallery Section */}
                       {property.galeriaDeFotos && property.galeriaDeFotos.length > 0 && (
                         <div className="mb-12">
