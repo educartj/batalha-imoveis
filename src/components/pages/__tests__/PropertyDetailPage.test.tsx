@@ -293,4 +293,98 @@ describe('PropertyDetailPage - Gallery and Media Fetching', () => {
 
     expect(complexProperty.galeriaDeFotos).toHaveLength(4);
   });
+
+  describe('Video Field Issue - Root Cause Analysis', () => {
+    it('should demonstrate the problem: video field is NOT included in galeriaDeFotos', async () => {
+      // PROBLEMA IDENTIFICADO:
+      // O campo 'video' (campo separado no CMS) NÃO é automaticamente adicionado à galeriaDeFotos
+      // A galeriaDeFotos é um campo de MEDIA_GALLERY que contém apenas as mídias adicionadas nele
+      // O campo 'video' é um campo separado de tipo VIDEO que não é sincronizado com galeriaDeFotos
+
+      const mockGetAll = vi.mocked(BaseCrudService.getAll);
+      mockGetAll.mockResolvedValue({
+        items: [mockProperty],
+        totalCount: 1,
+        hasNext: false,
+        currentPage: 0,
+        pageSize: 50,
+        nextSkip: null,
+      });
+
+      render(
+        <BrowserRouter>
+          <PropertyDetailPage />
+        </BrowserRouter>
+      );
+
+      await waitFor(() => {
+        expect(mockGetAll).toHaveBeenCalled();
+      });
+
+      // O campo 'video' existe no imóvel
+      expect(mockProperty.video).toBe('https://example.com/main-video.mp4');
+
+      // MAS não está em galeriaDeFotos
+      expect(mockProperty.galeriaDeFotos).not.toContain(mockProperty.video);
+
+      // Portanto, quando o usuário clica em "Vídeos", não encontra nada
+      const isVideoMedia = (mediaUrl: string): boolean => {
+        if (!mediaUrl) return false;
+        const videoExtensions = /\.(mp4|webm|ogg|mov|avi|mkv|m4v|flv|wmv|3gp)$/i;
+        return videoExtensions.test(mediaUrl);
+      };
+
+      const videosInGallery = mockProperty.galeriaDeFotos!.filter(media => isVideoMedia(media));
+      expect(videosInGallery).toHaveLength(2); // Apenas os 2 vídeos em galeriaDeFotos
+
+      // O campo 'video' separado não é considerado
+      expect(mockProperty.galeriaDeFotos).not.toContain(mockProperty.video);
+    });
+
+    it('should fix the issue by including the video field in the filtered media', async () => {
+      // SOLUÇÃO:
+      // Incluir o campo 'video' separado na galeria quando filtrar por vídeos
+      // Combinar galeriaDeFotos com o campo video para exibição
+
+      const mockGetAll = vi.mocked(BaseCrudService.getAll);
+      mockGetAll.mockResolvedValue({
+        items: [mockProperty],
+        totalCount: 1,
+        hasNext: false,
+        currentPage: 0,
+        pageSize: 50,
+        nextSkip: null,
+      });
+
+      render(
+        <BrowserRouter>
+          <PropertyDetailPage />
+        </BrowserRouter>
+      );
+
+      await waitFor(() => {
+        expect(mockGetAll).toHaveBeenCalled();
+      });
+
+      // Simular a solução: combinar galeriaDeFotos com o campo video
+      const allMedia = [
+        ...(mockProperty.galeriaDeFotos || []),
+        ...(mockProperty.video ? [mockProperty.video] : []),
+      ];
+
+      const isVideoMedia = (mediaUrl: string): boolean => {
+        if (!mediaUrl) return false;
+        const videoExtensions = /\.(mp4|webm|ogg|mov|avi|mkv|m4v|flv|wmv|3gp)$/i;
+        return videoExtensions.test(mediaUrl);
+      };
+
+      const videosInCombinedGallery = allMedia.filter(media => isVideoMedia(media));
+
+      // Agora temos 3 vídeos: 2 de galeriaDeFotos + 1 do campo video
+      expect(videosInCombinedGallery).toHaveLength(3);
+      expect(videosInCombinedGallery).toContain('https://example.com/video1.mp4');
+      expect(videosInCombinedGallery).toContain('https://example.com/video2.webm');
+      expect(videosInCombinedGallery).toContain('https://example.com/main-video.mp4');
+    });
+  });
 });

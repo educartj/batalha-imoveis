@@ -44,10 +44,16 @@ export default function PropertyDetailPage() {
     return videoExtensions.test(mediaUrl);
   };
 
-  // Get filtered media items
+  // Get filtered media items - CORRIGIDO: Combina galeriaDeFotos com o campo video separado
   const getFilteredMedia = () => {
-    if (!property?.galeriaDeFotos) return [];
-    return property.galeriaDeFotos.filter((media: any) => {
+    const allMedia = [
+      ...(property?.galeriaDeFotos || []),
+      ...(property?.video ? [property.video] : []),
+    ];
+
+    if (allMedia.length === 0) return [];
+
+    return allMedia.filter((media: any) => {
       const mediaUrl = typeof media === 'string' ? media : (media?.url || media?.src || media?.image || '');
       const isVideo = isVideoMedia(mediaUrl);
 
@@ -305,7 +311,12 @@ export default function PropertyDetailPage() {
 
                                   const isVideo = isVideoMedia(mediaUrl);
 
-                                  const actualIndex = property.galeriaDeFotos.findIndex((m: any) => {
+                                  // Encontrar o índice na galeria combinada (galeriaDeFotos + video)
+                                  const allMedia = [
+                                    ...(property?.galeriaDeFotos || []),
+                                    ...(property?.video ? [property.video] : []),
+                                  ];
+                                  const actualIndex = allMedia.findIndex((m: any) => {
                                     const mUrl = typeof m === 'string' ? m : (m?.url || m?.src || m?.image || '');
                                     return mUrl === mediaUrl;
                                   });
