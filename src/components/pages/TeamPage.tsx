@@ -104,7 +104,7 @@ export default function TeamPage() {
                   >
                     <div className="relative h-96 overflow-hidden">
                       <Image
-                        src={member.profilePhoto profilePhoto || 'https://static.wixstatic.com/media/72153f_c4f62a6595ec4e27a450d863063bcf3c~mv2.png?originWidth=384&originHeight=384'}
+                        src={member.profilePhoto || 'https://static.wixstatic.com/media/72153f_c4f62a6595ec4e27a450d863063bcf3c~mv2.png?originWidth=384&originHeight=384'}
                         alt={member.brokerName || 'Corretor'}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         width={400}
