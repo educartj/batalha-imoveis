@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Image } from '@/components/ui/image';
-import { Button } from '@/components/ui/button';
-import { BaseCrudService } from '@/integrations';
-import { Team } from '@/entities';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 import SEO from '@/components/SEO';
-import { Mail, Phone } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Image } from '@/components/ui/image';
+import { Team } from '@/entities';
+import { BaseCrudService } from '@/integrations';
+import { motion } from 'framer-motion';
+import { Phone } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function TeamPage() {
   const [teamMembers, setTeamMembers] = useState<Team[]>([]);
@@ -33,7 +33,7 @@ export default function TeamPage() {
     "@type": "ProfessionalService",
     "name": "Batalha Imóveis - Equipe",
     "description": "Conheça nossos especialistas em imóveis de alto padrão",
-    "url": "https://seu-dominio.com.br/equipe",
+    "url": "https://www.batalhaimoveis.com.br/equipe",
     "telephone": "+5515981411383",
     "email": "contato@batalhaimoveis.com.br",
     "employee": teamMembers.map(member => ({
