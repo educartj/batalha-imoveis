@@ -19,10 +19,12 @@ export default function TeamPage() {
 
   const loadTeam = async () => {
     try {
-      const result = await BaseCrudService.getAll<Team>('team');
-      setTeamMembers(result.items);
+      const result = await BaseCrudService.getAll<Team>('team', {}, { limit: 100 });
+      console.log('Team data loaded:', result);
+      setTeamMembers(result.items || []);
     } catch (error) {
       console.error('Error loading team:', error);
+      setTeamMembers([]);
     } finally {
       setIsLoading(false);
     }
