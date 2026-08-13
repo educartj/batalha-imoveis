@@ -171,45 +171,44 @@ export default function TeamPage() {
       {/* CTA Section */}
       <section className="w-full py-32 bg-white">
         <div className="max-w-[100rem] mx-auto px-20">
-          <div className="bg-primary rounded-2xl p-16 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="font-heading text-5xl text-primary-foreground mb-6">
-                Pronto para Começar?
-              </h2>
-              <p className="font-paragraph text-xl text-primary-foreground/90 mb-10 max-w-2xl mx-auto">
-                Entre em contato com nossa equipe e descubra como podemos ajudá-lo
-                a encontrar o imóvel dos seus sonhos
-              </p>
-              <div className="flex flex-wrap gap-6 justify-center">
-                <a
-                  href="https://wa.me/5515981411383"
-                  target="_blank"
-                  rel="noopener noreferrer"
+          <motion.div
+            className="bg-primary rounded-2xl p-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="font-heading text-5xl text-primary-foreground mb-6">
+              Pronto para Começar?
+            </h2>
+            <p className="font-paragraph text-xl text-primary-foreground/90 mb-10 max-w-2xl mx-auto">
+              Entre em contato com nossa equipe e descubra como podemos ajudá-lo
+              a encontrar o imóvel dos seus sonhos
+            </p>
+            <div className="flex flex-wrap gap-6 justify-center">
+              <a
+                href="https://wa.me/5515981411383"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button
+                  size="lg"
+                  className="bg-accent-gold hover:bg-accent-gold/90 text-primary font-paragraph font-semibold px-10 py-6 text-base h-auto"
                 >
-                  <Button
-                    size="lg"
-                    className="bg-accent-gold hover:bg-accent-gold/90 text-primary font-paragraph font-semibold px-10 py-6 text-base h-auto"
-                  >
-                    Falar no WhatsApp
-                  </Button>
-                </a>
-                <a href="mailto:contato@batalhaimoveis.com.br">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary font-paragraph font-semibold px-10 py-6 text-base h-auto"
-                  >
-                    Enviar E-mail
-                  </Button>
-                </a>
-              </div>
-            </motion.div>
-          </div>
+                  Falar no WhatsApp
+                </Button>
+              </a>
+              <a href="mailto:contato@batalhaimoveis.com.br">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary font-paragraph font-semibold px-10 py-6 text-base h-auto"
+                >
+                  Enviar E-mail
+                </Button>
+              </a>
+            </div>
+          </motion.div>
         </div>
       </section>
 
