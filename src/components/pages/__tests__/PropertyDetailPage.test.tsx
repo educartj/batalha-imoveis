@@ -65,6 +65,7 @@ const mockProperty: Imveis = {
     'https://example.com/photo3.jpg',
     'https://example.com/video2.webm',
   ],
+  video: 'https://example.com/main-video.mp4',
 };
 
 describe('PropertyDetailPage - Gallery and Media Fetching', () => {
