@@ -7,6 +7,7 @@ import AboutPage from './pages/AboutPage';
 import PropertiesPage from './pages/PropertiesPage';
 import PropertyDetailPage from './pages/PropertyDetailPage';
 import TeamPage from './pages/TeamPage';
+import DiagnosticsPage from './pages/DiagnosticsPage';
 
 // Layout component that includes ScrollToTop
 function Layout() {
@@ -57,6 +58,13 @@ const router = createBrowserRouter([
         element: <TeamPage />,
         routeMetadata: {
           pageIdentifier: 'team',
+        },
+      },
+      {
+        path: "diagnosticos",
+        element: <DiagnosticsPage />,
+        routeMetadata: {
+          pageIdentifier: 'diagnostics',
         },
       },
       {
