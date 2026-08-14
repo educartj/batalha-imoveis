@@ -37,11 +37,25 @@ export default function PropertyDetailPage() {
     }
   };
 
+  // Helper function to convert wixvideo:// URLs to valid URLs
+  const convertVideoUrl = (url: string): string => {
+    if (!url) return '';
+    // If it's a wixvideo:// URL, we need to handle it
+    if (url.startsWith('wixvideo://')) {
+      // Extract the video ID from wixvideo://videoId format
+      const videoId = url.replace('wixvideo://', '');
+      // Return a Wix video URL that can be played
+      return `https://video.wixstatic.com/video/${videoId}`;
+    }
+    return url;
+  };
+
   // Helper function to detect if media is a video
   const isVideoMedia = (mediaUrl: string): boolean => {
     if (!mediaUrl) return false;
     const videoExtensions = /\.(mp4|webm|ogg|mov|avi|mkv|m4v|flv|wmv|3gp)$/i;
-    return videoExtensions.test(mediaUrl);
+    const isWixVideo = mediaUrl.startsWith('wixvideo://');
+    return videoExtensions.test(mediaUrl) || isWixVideo;
   };
 
   // Get filtered media items - CORRIGIDO: Combina galeriaDeFotos com o campo video separado
@@ -333,7 +347,7 @@ export default function PropertyDetailPage() {
                                       {isVideo ? (
                                         <>
                                           <video
-                                            src={mediaUrl}
+                                            src={convertVideoUrl(mediaUrl)}
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                                           />
                                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
@@ -428,7 +442,7 @@ export default function PropertyDetailPage() {
 
                                   return isVideo ? (
                                     <video
-                                      src={mediaUrl}
+                                      src={convertVideoUrl(mediaUrl)}
                                       controls
                                       autoPlay
                                       className="max-h-full max-w-full object-contain"
