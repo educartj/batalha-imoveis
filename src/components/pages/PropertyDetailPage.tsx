@@ -37,41 +37,11 @@ export default function PropertyDetailPage() {
     }
   };
 
-  // Helper function to convert wixvideo:// URLs to valid URLs
-  const convertVideoUrl = (url: string): string => {
-    if (!url) return '';
-    
-    // If it's a wixvideo:// URL, we need to handle it
-    if (url.startsWith('wixvideo://')) {
-      // Try to extract the video ID from wixvideo://v1/{video_id}/file.mp4 format
-      let match = url.match(/wixvideo:\/\/v1\/([^/]+)\/file\.mp4/);
-      if (match && match[1]) {
-        const videoId = match[1];
-        return `https://video.wixstatic.com/video/${videoId}/480p/mp4/file.mp4`;
-      }
-      
-      // Fallback: try to extract just the ID part if format is different
-      match = url.match(/wixvideo:\/\/v1\/([^/]+)/);
-      if (match && match[1]) {
-        const videoId = match[1];
-        return `https://video.wixstatic.com/video/${videoId}/480p/mp4/file.mp4`;
-      }
-    }
-    
-    // If it's already a valid URL, return as is
-    if (url.startsWith('http://') || url.startsWith('https://')) {
-      return url;
-    }
-    
-    return url;
-  };
-
   // Helper function to detect if media is a video
   const isVideoMedia = (mediaUrl: string): boolean => {
     if (!mediaUrl) return false;
     const videoExtensions = /\.(mp4|webm|ogg|mov|avi|mkv|m4v|flv|wmv|3gp)$/i;
-    const isWixVideo = mediaUrl.startsWith('wixvideo://');
-    return videoExtensions.test(mediaUrl) || isWixVideo;
+    return videoExtensions.test(mediaUrl);
   };
 
   // Helper function to extract media URL from various formats
@@ -365,7 +335,7 @@ export default function PropertyDetailPage() {
                                       {isVideo ? (
                                         <>
                                           <video
-                                            src={convertVideoUrl(mediaUrl)}
+                                            src={mediaUrl}
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                                           />
                                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
@@ -460,7 +430,7 @@ export default function PropertyDetailPage() {
 
                                   return isVideo ? (
                                     <video
-                                      src={convertVideoUrl(mediaUrl)}
+                                      src={mediaUrl}
                                       controls
                                       autoPlay
                                       className="max-h-full max-w-full object-contain"
