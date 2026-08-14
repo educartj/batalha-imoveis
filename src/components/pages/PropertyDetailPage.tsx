@@ -40,16 +40,29 @@ export default function PropertyDetailPage() {
   // Helper function to convert wixvideo:// URLs to valid URLs
   const convertVideoUrl = (url: string): string => {
     if (!url) return '';
+    
     // If it's a wixvideo:// URL, we need to handle it
     if (url.startsWith('wixvideo://')) {
-      // Extract the video ID from wixvideo://v1/{video_id}/... format
-      const match = url.match(/wixvideo:\/\/v1\/([^/]+)/);
+      // Try to extract the video ID from wixvideo://v1/{video_id}/file.mp4 format
+      let match = url.match(/wixvideo:\/\/v1\/([^/]+)\/file\.mp4/);
       if (match && match[1]) {
         const videoId = match[1];
-        // Return a Wix video URL in the correct format
+        return `https://video.wixstatic.com/video/${videoId}/480p/mp4/file.mp4`;
+      }
+      
+      // Fallback: try to extract just the ID part if format is different
+      match = url.match(/wixvideo:\/\/v1\/([^/]+)/);
+      if (match && match[1]) {
+        const videoId = match[1];
         return `https://video.wixstatic.com/video/${videoId}/480p/mp4/file.mp4`;
       }
     }
+    
+    // If it's already a valid URL, return as is
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    
     return url;
   };
 
