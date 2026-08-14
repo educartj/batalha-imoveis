@@ -33,7 +33,7 @@ export default function DiagnosticsPage() {
     }
   };
 
-  const propertiesWithVideos = properties.filter(p => p.video && p.video.trim() !== '' && !p.video.startsWith('wixvideo://'));
+  const propertiesWithVideos = properties.filter(p => p.video && p.video.trim() !== '');
   const propertiesWithGallery = properties.filter(p => p.galeriaDeFotos && Array.isArray(p.galeriaDeFotos) && p.galeriaDeFotos.length > 0);
 
   const copyToClipboard = (text: string, id: string) => {
@@ -127,7 +127,7 @@ export default function DiagnosticsPage() {
                         </div>
                       </div>
 
-                      {property.video && !property.video.startsWith('wixvideo://') && (
+                      {property.video && (
                         <div className="mb-4 p-4 bg-foreground/5 rounded">
                           <p className="font-paragraph text-xs text-foreground/60 mb-2">Pré-visualização do vídeo:</p>
                           <video
@@ -142,12 +142,6 @@ export default function DiagnosticsPage() {
                               console.log('✅ Vídeo carregado com sucesso:', property.video);
                             }}
                           />
-                        </div>
-                      )}
-                      {property.video && property.video.startsWith('wixvideo://') && (
-                        <div className="mb-4 p-4 bg-accent-gold/10 border border-accent-gold/30 rounded">
-                          <p className="font-paragraph text-xs text-foreground/60 mb-2">⚠️ Vídeo Wix Interno:</p>
-                          <p className="font-paragraph text-xs text-foreground/50">Este vídeo é armazenado no sistema Wix interno e não pode ser visualizado aqui. Use o player Wix nativo para exibir.</p>
                         </div>
                       )}
 
