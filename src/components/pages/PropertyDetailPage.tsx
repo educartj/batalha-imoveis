@@ -42,10 +42,13 @@ export default function PropertyDetailPage() {
     if (!url) return '';
     // If it's a wixvideo:// URL, we need to handle it
     if (url.startsWith('wixvideo://')) {
-      // Extract the video ID from wixvideo://videoId format
-      const videoId = url.replace('wixvideo://', '');
-      // Return a Wix video URL that can be played
-      return `https://video.wixstatic.com/video/${videoId}`;
+      // Extract the video ID from wixvideo://v1/{video_id}/... format
+      const match = url.match(/wixvideo:\/\/v1\/([^/]+)/);
+      if (match && match[1]) {
+        const videoId = match[1];
+        // Return a Wix video URL in the correct format
+        return `https://video.wixstatic.com/video/${videoId}/480p/mp4/file.mp4`;
+      }
     }
     return url;
   };
