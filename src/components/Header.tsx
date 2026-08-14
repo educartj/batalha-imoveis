@@ -28,11 +28,11 @@ export default function Header() {
         {/* Logo */}
         <Link to="/" className="flex-shrink-0 hover:opacity-90 transition-opacity duration-300">
           <Image
-            src="https://static.wixstatic.com/media/72153f_e089c9f1d7d94b989f755e3649901f63~mv2.png"
-            width={100}
-            className="h-auto opacity-[0.31] border-0 border-solid border-[#c9a87cff]"
-            originWidth={100}
-            originHeight={50} />
+            src="https://static.wixstatic.com/media/62c475_41f9cc2bdc5347a9bfe9ee3690f83d8a~mv2.png"
+            width={120}
+            alt="Batalha Imóveis Logo"
+            className="h-auto"
+          />
         </Link>
 
         {/* Desktop Navigation */}
