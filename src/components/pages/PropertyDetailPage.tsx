@@ -74,17 +74,26 @@ export default function PropertyDetailPage() {
     return videoExtensions.test(mediaUrl) || isWixVideo;
   };
 
-  // Get filtered media items - CORRIGIDO: Combina galeriaDeFotos com o campo video separado
+  // Helper function to extract media URL from various formats
+  const getMediaUrl = (media: any): string => {
+    if (typeof media === 'string') return media;
+    if (media?.url) return media.url;
+    if (media?.src) return media.src;
+    if (media?.image) return media.image;
+    if (media?.mp4) return media.mp4;
+    return '';
+  };
+
+  // Get filtered media items - Only from galeriaDeFotos
   const getFilteredMedia = () => {
-    const allMedia = [
-      ...(property?.galeriaDeFotos || []),
-      ...(property?.video ? [property.video] : []),
-    ];
+    const allMedia = property?.galeriaDeFotos || [];
 
     if (allMedia.length === 0) return [];
 
     return allMedia.filter((media: any) => {
-      const mediaUrl = typeof media === 'string' ? media : (media?.url || media?.src || media?.image || '');
+      const mediaUrl = getMediaUrl(media);
+      if (!mediaUrl) return false;
+      
       const isVideo = isVideoMedia(mediaUrl);
 
       if (mediaFilter === 'photos') return !isVideo;
@@ -335,19 +344,12 @@ export default function PropertyDetailPage() {
                                 style={{ scrollBehavior: 'smooth', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                               >
                                 {filteredMedia.map((media: any, displayIndex: number) => {
-                                  const mediaUrl = typeof media === 'string'
-                                    ? media
-                                    : (media?.url || media?.src || media?.image || '');
-
+                                  const mediaUrl = getMediaUrl(media);
                                   const isVideo = isVideoMedia(mediaUrl);
 
-                                  // Encontrar o índice na galeria combinada (galeriaDeFotos + video)
-                                  const allMedia = [
-                                    ...(property?.galeriaDeFotos || []),
-                                    ...(property?.video ? [property.video] : []),
-                                  ];
-                                  const actualIndex = allMedia.findIndex((m: any) => {
-                                    const mUrl = typeof m === 'string' ? m : (m?.url || m?.src || m?.image || '');
+                                  // Find the actual index in the original galeriaDeFotos array
+                                  const actualIndex = property.galeriaDeFotos.findIndex((m: any) => {
+                                    const mUrl = getMediaUrl(m);
                                     return mUrl === mediaUrl;
                                   });
 
