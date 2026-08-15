@@ -12,6 +12,9 @@ import { ArrowLeft, Bath, Bed, ChevronLeft, ChevronRight, Home, MapPin, Maximize
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
+// Unified video extensions regex constant
+const VIDEO_EXTENSIONS_REGEX = /\.(mp4|webm|ogg|mov|avi|mkv|m4v|flv|wmv|3gp)$/i;
+
 export default function PropertyDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const [property, setProperty] = useState<Imveis | null>(null);
@@ -37,21 +40,30 @@ export default function PropertyDetailPage() {
     }
   };
 
-  // Helper function to detect if media is a video
-  const isVideoMedia = (mediaUrl: string): boolean => {
-    if (!mediaUrl) return false;
-    const videoExtensions = /\.(mp4|webm|ogg|mov|avi|mkv|m4v|flv|wmv|3gp)$/i;
-    return videoExtensions.test(mediaUrl);
-  };
-
   // Helper function to extract media URL from various formats
+  // Prioritizes 'slug' (if it starts with http) and 'src' to avoid conflicts
   const getMediaUrl = (media: any): string => {
     if (typeof media === 'string') return media;
-    if (media?.url) return media.url;
+    if (media?.slug && typeof media.slug === 'string' && media.slug.startsWith('http')) return media.slug;
     if (media?.src) return media.src;
+    if (media?.url) return media.url;
     if (media?.image) return media.image;
     if (media?.mp4) return media.mp4;
     return '';
+  };
+
+  // Helper function to detect if media is a video
+  // Checks for 'type === "video"' first, then validates with unified regex on fileName or slug
+  const isVideoMedia = (media: any): boolean => {
+    const mediaUrl = getMediaUrl(media);
+    if (!mediaUrl) return false;
+
+    // Check explicit type field first
+    if (media?.type === 'video') return true;
+
+    // Check file extension using unified regex on fileName or slug
+    const fileName = media?.fileName || media?.slug || mediaUrl;
+    return VIDEO_EXTENSIONS_REGEX.test(fileName);
   };
 
   // Get filtered media items - Only from galeriaDeFotos
@@ -64,7 +76,7 @@ export default function PropertyDetailPage() {
       const mediaUrl = getMediaUrl(media);
       if (!mediaUrl) return false;
       
-      const isVideo = isVideoMedia(mediaUrl);
+      const isVideo = isVideoMedia(media);
 
       if (mediaFilter === 'photos') return !isVideo;
       if (mediaFilter === 'videos') return isVideo;
@@ -315,7 +327,7 @@ export default function PropertyDetailPage() {
                               >
                                 {filteredMedia.map((media: any, displayIndex: number) => {
                                   const mediaUrl = getMediaUrl(media);
-                                  const isVideo = isVideoMedia(mediaUrl);
+                                  const isVideo = isVideoMedia(media);
 
                                   // Find the actual index in the original galeriaDeFotos array
                                   const actualIndex = property.galeriaDeFotos.findIndex((m: any) => {
@@ -423,10 +435,8 @@ export default function PropertyDetailPage() {
                               >
                                 {(() => {
                                   const selectedMedia = property.galeriaDeFotos[selectedImageIndex];
-                                  const mediaUrl = typeof selectedMedia === 'string'
-                                    ? selectedMedia
-                                    : (selectedMedia?.url || selectedMedia?.src || selectedMedia?.image ||selectedMedia?.mp4 || '');
-                                  const isVideo = mediaUrl && /\.(mp4|webm|ogg|mov|avi|mkv)$/i.test(mediaUrl);
+                                  const mediaUrl = getMediaUrl(selectedMedia);
+                                  const isVideo = isVideoMedia(selectedMedia);
 
                                   return isVideo ? (
                                     <video
