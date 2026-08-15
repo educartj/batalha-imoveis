@@ -184,11 +184,12 @@ export default function PropertyDetailPage() {
                   transition={{ duration: 0.6 }}
                   className="relative h-[400px] md:h-[600px] rounded-xl overflow-hidden"
                 >
-                  <div
-                    className="w-full h-full object-cover bg-cover bg-center"
-                    style={{
-                      backgroundImage: `url(${property.mainImage || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'})`
-                    }}
+                  <Image
+                    src={property.mainImage || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                    alt={property.title || 'Imóvel'}
+                    className="w-full h-full object-cover"
+                    width={1200}
+                    height={600}
                   />
                   <div className="absolute top-8 right-8 bg-accent-gold text-primary px-6 py-3 rounded font-paragraph text-base font-semibold">
                     {property.status || 'Disponível'}
