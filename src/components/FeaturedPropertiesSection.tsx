@@ -5,7 +5,7 @@ import { BaseCrudService } from '@/integrations';
 import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronDown, X, Filter } from 'lucide-react';
+import { ArrowRight, ChevronDown, X, Filter, Building2, Home, MapPin, Store, Warehouse, Trees, Building, Landmark, DollarSign, Zap, Briefcase } from 'lucide-react';
 import { generateSlug } from '@/lib/slug';
 
 const GoldBadge = ({ children }: { children: React.ReactNode }) => (
@@ -16,6 +16,22 @@ const GoldBadge = ({ children }: { children: React.ReactNode }) => (
     </span>
   </div>
 );
+
+// Property type to icon mapping
+const propertyTypeIcons: Record<string, React.ReactNode> = {
+  'Apartamento': <Building2 className="w-5 h-5" />,
+  'Casa': <Home className="w-5 h-5" />,
+  'Terreno': <MapPin className="w-5 h-5" />,
+  'Comercial': <Store className="w-5 h-5" />,
+  'Galpão': <Warehouse className="w-5 h-5" />,
+  'Chácara': <Trees className="w-5 h-5" />,
+  'Prédio': <Building className="w-5 h-5" />,
+  'Lote': <MapPin className="w-5 h-5" />,
+  'Sala Comercial': <Briefcase className="w-5 h-5" />,
+  'Kitnet': <DollarSign className="w-5 h-5" />,
+  'Studio': <Zap className="w-5 h-5" />,
+  'Cobertura': <Landmark className="w-5 h-5" />,
+};
 
 interface FilterState {
   transactionType: 'comprar' | 'alugar' | null;
@@ -328,7 +344,7 @@ const AppliedFiltersPanel: React.FC<{
   );
 };
 
-// Property Types Popover Component
+// Property Types Popover Component with Icon Buttons
 const PropertyTypesPopover: React.FC<{
   types: string[];
   selectedTypes: string[];
@@ -349,19 +365,28 @@ const PropertyTypesPopover: React.FC<{
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-40 p-4"
+            className="absolute top-full left-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-40 p-6"
           >
-            <div className="space-y-2 max-h-80 overflow-y-auto">
+            <div className="grid grid-cols-2 gap-3 max-h-96 overflow-y-auto">
               {types.map(type => (
-                <label key={type} className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={selectedTypes.includes(type)}
-                    onChange={() => onTypeToggle(type)}
-                    className="w-4 h-4 rounded border-gray-300"
-                  />
-                  <span className="font-paragraph text-sm text-foreground">{type}</span>
-                </label>
+                <button
+                  key={type}
+                  onClick={() => onTypeToggle(type)}
+                  className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-all ${
+                    selectedTypes.includes(type)
+                      ? 'border-primary bg-primary/5'
+                      : 'border-gray-200 hover:border-gray-300 bg-gray-50'
+                  }`}
+                >
+                  <div className={`${selectedTypes.includes(type) ? 'text-primary' : 'text-foreground/60'}`}>
+                    {propertyTypeIcons[type] || <Building2 className="w-5 h-5" />}
+                  </div>
+                  <span className={`font-paragraph text-xs text-center leading-tight ${
+                    selectedTypes.includes(type) ? 'text-primary font-semibold' : 'text-foreground/70'
+                  }`}>
+                    {type}
+                  </span>
+                </button>
               ))}
             </div>
           </motion.div>
