@@ -425,14 +425,14 @@ export default function PropertyDetailPage() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             {/* Media Container */}
-                            <div className="relative h-[600px] sm:h-[800px] rounded-2xl overflow-hidden flex items-center justify-center bg-gradient-to-br from-foreground/5 via-foreground/10 to-foreground/5">
+                            <div className="relative max-h-[80vh] rounded-2xl overflow-hidden flex items-center justify-center bg-gradient-to-br from-foreground/5 via-foreground/10 to-foreground/5">
                               <motion.div
                                 key={selectedImageIndex}
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.4 }}
-                                className="h-[600px] sm:h-[800px] flex items-center justify-center overflow-auto"
+                                className="max-h-[80vh] flex items-center justify-center overflow-auto"
                               >
                                 {(() => {
                                   const selectedMedia = property.galeriaDeFotos[selectedImageIndex];
