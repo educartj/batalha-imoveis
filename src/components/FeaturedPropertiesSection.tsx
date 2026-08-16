@@ -17,6 +17,9 @@ const GoldBadge = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
+// Main property types to show above the popover button
+const MAIN_PROPERTY_TYPES = ['Apartamento', 'Casa', 'Terreno', 'Comercial', 'Chácara', 'Sala Comercial'];
+
 // Property type to icon mapping
 const propertyTypeIcons: Record<string, React.ReactNode> = {
   'Apartamento': <Building2 className="w-5 h-5" />,
@@ -352,6 +355,9 @@ const PropertyTypesPopover: React.FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ types, selectedTypes, onTypeToggle, isOpen, onClose }) => {
+  // Filter out main types to show only additional types in popover
+  const additionalTypes = types.filter(type => !MAIN_PROPERTY_TYPES.includes(type));
+  
   return (
     <AnimatePresence>
       {isOpen && (
@@ -368,7 +374,7 @@ const PropertyTypesPopover: React.FC<{
             className="absolute top-full left-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-40 p-6"
           >
             <div className="grid grid-cols-2 gap-3 max-h-96 overflow-y-auto">
-              {types.map(type => (
+              {additionalTypes.map(type => (
                 <button
                   key={type}
                   onClick={() => onTypeToggle(type)}
@@ -585,26 +591,55 @@ const FilterSidebar: React.FC<FilterSectionProps> = ({
             )}
           </div>
 
-          {/* Type Filter - Button with Popover */}
-          <div className="mb-6 md:mb-4 relative">
-            <button
-              onClick={() => setTypesPopoverOpen(!typesPopoverOpen)}
-              className="w-full flex items-center justify-between py-2 px-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-            >
-              <span className="font-paragraph text-sm text-foreground">
-                {filters.types.length > 0 ? `${filters.types.length} tipo(s)` : 'Ver todos os tipos'}
-              </span>
-              <ChevronDown
-                className={`w-4 h-4 transition-transform ${typesPopoverOpen ? 'rotate-180' : ''}`}
+          {/* Type Filter - Main Types as Buttons + Popover for Others */}
+          <div className="mb-6 md:mb-4">
+            <span className="font-heading text-sm md:text-xs uppercase text-primary font-semibold block mb-3 md:mb-2">Tipo de Imóvel</span>
+            
+            {/* Main Property Types Grid */}
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              {MAIN_PROPERTY_TYPES.map(type => (
+                <button
+                  key={type}
+                  onClick={() => handleTypeToggle(type)}
+                  className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-all ${
+                    filters.types.includes(type)
+                      ? 'border-primary bg-primary/5'
+                      : 'border-gray-200 hover:border-gray-300 bg-gray-50'
+                  }`}
+                >
+                  <div className={`${filters.types.includes(type) ? 'text-primary' : 'text-foreground/60'}`}>
+                    {propertyTypeIcons[type] || <Building2 className="w-5 h-5" />}
+                  </div>
+                  <span className={`font-paragraph text-xs text-center leading-tight ${
+                    filters.types.includes(type) ? 'text-primary font-semibold' : 'text-foreground/70'
+                  }`}>
+                    {type}
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            {/* See All Types Button with Popover */}
+            <div className="relative">
+              <button
+                onClick={() => setTypesPopoverOpen(!typesPopoverOpen)}
+                className="w-full flex items-center justify-between py-2 px-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                <span className="font-paragraph text-sm text-foreground">
+                  {filters.types.length > MAIN_PROPERTY_TYPES.length ? `${filters.types.length} tipo(s)` : 'Ver todos os tipos'}
+                </span>
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${typesPopoverOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+              <PropertyTypesPopover
+                types={uniqueTypes}
+                selectedTypes={filters.types}
+                onTypeToggle={handleTypeToggle}
+                isOpen={typesPopoverOpen}
+                onClose={() => setTypesPopoverOpen(false)}
               />
-            </button>
-            <PropertyTypesPopover
-              types={uniqueTypes}
-              selectedTypes={filters.types}
-              onTypeToggle={handleTypeToggle}
-              isOpen={typesPopoverOpen}
-              onClose={() => setTypesPopoverOpen(false)}
-            />
+            </div>
           </div>
 
           {/* Region Filter */}
