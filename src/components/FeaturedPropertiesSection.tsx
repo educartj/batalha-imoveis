@@ -18,7 +18,7 @@ const GoldBadge = ({ children }: { children: React.ReactNode }) => (
 );
 
 // Main property types to show above the popover button
-const MAIN_PROPERTY_TYPES = ['Apartamento', 'Casa', 'Terreno', 'Comercial', 'Chácara', 'Casa de Con'];
+const MAIN_PROPERTY_TYPES = ['Apartamento', 'Casa', 'Terreno', 'Comercial', 'Chácara', 'Casa em condominios'];
 
 // Property type to icon mapping
 const propertyTypeIcons: Record<string, React.ReactNode> = {
