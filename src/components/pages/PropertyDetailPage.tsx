@@ -432,7 +432,7 @@ export default function PropertyDetailPage() {
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.4 }}
-                                className="max-h-[100vh] w-full flex overflow-auto"
+                                className="h-full flex items-center justify-center overflow-auto"
                               >
                                 {(() => {
                                   const selectedMedia = property.galeriaDeFotos[selectedImageIndex];
