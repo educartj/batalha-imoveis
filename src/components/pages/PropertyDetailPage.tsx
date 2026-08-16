@@ -460,7 +460,7 @@ export default function PropertyDetailPage() {
                                       initial={{ scale: 1 }}
                                       animate={{ scale: zoomLevel }}
                                       transition={{ duration: 0.3 }}
-                                      className="flex items-center justify-center object-contain"
+                                      className="max-h-full max-w-full object-contain"
                                     >
                                       <Image
                                         src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
