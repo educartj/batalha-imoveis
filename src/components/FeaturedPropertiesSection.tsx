@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Imveis } from '@/entities';
-import { BaseCrudService } from '@/integrations';
 import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
-import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronDown, X, Filter, Building2, Home, MapPin, Store, Warehouse, Trees, Building, Landmark, DollarSign, Zap, Briefcase } from 'lucide-react';
+import { Imveis } from '@/entities';
+import { BaseCrudService } from '@/integrations';
 import { generateSlug } from '@/lib/slug';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowRight, Briefcase, Building, Building2, ChevronDown, DollarSign, Filter, Home, Landmark, MapPin, Store, Trees, Warehouse, X, Zap } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const GoldBadge = ({ children }: { children: React.ReactNode }) => (
   <div className="inline-flex items-center gap-2 px-3 py-1 border border-accent-gold/30 rounded-full bg-accent-gold/5 backdrop-blur-sm">
@@ -18,7 +18,7 @@ const GoldBadge = ({ children }: { children: React.ReactNode }) => (
 );
 
 // Main property types to show above the popover button
-const MAIN_PROPERTY_TYPES = ['Apartamento', 'Casa', 'Terreno', 'Comercial', 'Chácara', 'Sala Comercial'];
+const MAIN_PROPERTY_TYPES = ['Apartamento', 'Casa', 'Terreno', 'Comercial', 'Chácara', 'Casa de Con'];
 
 // Property type to icon mapping
 const propertyTypeIcons: Record<string, React.ReactNode> = {
@@ -52,21 +52,21 @@ interface PropertyCardProps {
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property, index }) => {
   const slug = generateSlug(property.title || '');
-  
+
   // Extract gallery images - handle various formats
   const getGalleryImages = () => {
     if (!property.galeriaDeFotos) return [];
-    
+
     // If it's an array
     if (Array.isArray(property.galeriaDeFotos)) {
       return property.galeriaDeFotos.slice(0, 3);
     }
-    
+
     // If it has items property
     if (property.galeriaDeFotos.items && Array.isArray(property.galeriaDeFotos.items)) {
       return property.galeriaDeFotos.items.slice(0, 3);
     }
-    
+
     return [];
   };
 
@@ -357,7 +357,7 @@ const PropertyTypesPopover: React.FC<{
 }> = ({ types, selectedTypes, onTypeToggle, isOpen, onClose }) => {
   // Filter out main types to show only additional types in popover
   const additionalTypes = types.filter(type => !MAIN_PROPERTY_TYPES.includes(type));
-  
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -594,7 +594,7 @@ const FilterSidebar: React.FC<FilterSectionProps> = ({
           {/* Type Filter - Main Types as Buttons + Popover for Others */}
           <div className="mb-6 md:mb-4">
             <span className="font-heading text-sm md:text-xs uppercase text-primary font-semibold block mb-3 md:mb-2">Tipo de Imóvel</span>
-            
+
             {/* Main Property Types Grid */}
             <div className="grid grid-cols-2 gap-2 mb-3">
               {MAIN_PROPERTY_TYPES.map(type => (
