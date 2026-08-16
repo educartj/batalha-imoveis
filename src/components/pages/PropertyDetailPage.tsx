@@ -232,7 +232,7 @@ export default function PropertyDetailPage() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.4, delay: displayIndex * 0.05 }}
-                                className="flex-shrink-0 h-[300px] md:h-[400px] lg:h-[600px] aspect-[3/4] rounded-lg overflow-hidden cursor-pointer group relative"
+                                className="flex-shrink-0 h-[300px] md:h-[400px] lg:h-[600px] aspect-[2/4] rounded-lg overflow-hidden cursor-pointer group relative"
                                 onClick={() => setSelectedImageIndex(actualIndex)}
                               >
                                 {isVideo ? (
