@@ -2,6 +2,7 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import SEO from '@/components/SEO';
+import FeaturedPropertiesSection from '@/components/FeaturedPropertiesSection';
 import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
 import { Imveis } from '@/entities';
@@ -282,65 +283,7 @@ const IntroSection = () => {
   );
 };
 
-const PropertyCard = ({ property, index }: { property: Imveis; index: number }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="group relative bg-white w-full"
-    >
-      <Link to={`/imoveis/${property._id}`} className="block h-full">
-        <div className="relative h-[300px] md:h-[400px] lg:h-[600px] overflow-hidden bg-gray-100">
-          <Image
-            src={property.mainImage || 'https://static.wixstatic.com/media/72153f_1fc5118b7aca44ca85812a98ffaa97cf~mv2.png?originWidth=576&originHeight=448'}
-            alt={property.title || 'Imóvel Batalha'}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            width={600}
-            height={600}
-          />
-          <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300" />
-
-          <div className="absolute top-4 left-4">
-            <span className="bg-white/90 backdrop-blur text-primary px-3 py-1 text-xs font-bold uppercase tracking-wider">
-              {property.status || 'Disponível'}
-            </span>
-          </div>
-
-          <div className="absolute bottom-0 left-0 w-full p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-t from-black/80 to-transparent">
-            <span className="text-white font-paragraph text-sm font-medium flex items-center gap-2">
-              Ver Detalhes <ArrowRight className="w-4 h-4" />
-            </span>
-          </div>
-        </div>
-
-        <div className="pt-6 pb-2 pr-4">
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="font-heading text-2xl text-primary group-hover:text-accent-gold transition-colors line-clamp-1">
-              {property.title}
-            </h3>
-          </div>
-
-          <p className="text-foreground/60 text-sm mb-4 flex items-center gap-1">
-            <MapPin className="w-3 h-3" /> {property.locationRegion || 'Consulte a localização'}
-          </p>
-
-          <div className="flex items-center gap-4 border-t border-gray-100 pt-4">
-            <div className="flex items-center gap-2 text-sm text-foreground/70">
-              <Home className="w-4 h-4 text-accent-gold" />
-              <span>{property.area ? `${property.area}m²` : '-'}</span>
-            </div>
-            <div className="w-px h-4 bg-gray-200" />
-            <div className="font-heading text-xl text-primary font-semibold">
-              {property.price ? `R$ ${property.price.toLocaleString('pt-BR')}` : 'Sob Consulta'}
-            </div>
-          </div>
-        </div>
-      </Link>
-    </motion.div>
-  );
-};
+// ... keep existing code (PropertyCard removed - now in FeaturedPropertiesSection)
 
 const ServiceAreaCard = ({ title, desc, image, delay }: { title: string, desc: string, image: string, delay: number }) => {
   return (
@@ -376,23 +319,6 @@ const ServiceAreaCard = ({ title, desc, image, delay }: { title: string, desc: s
 // --- Main Component ---
 
 export default function HomePage() {
-  const [featuredProperties, setFeaturedProperties] = useState<Imveis[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    loadFeaturedProperties();
-  }, []);
-
-  const loadFeaturedProperties = async () => {
-    try {
-      const result = await BaseCrudService.getAll<Imveis>('properties', [], { limit: 6 }); // Increased limit for better grid
-      setFeaturedProperties(result.items);
-    } catch (error) {
-      console.error('Error loading properties:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -438,47 +364,7 @@ export default function HomePage() {
 
         <IntroSection />
 
-        {/* Featured Properties Section */}
-        <section id="imoveis-destaque" className="w-full py-32 bg-gray-50">
-          <div className="max-w-[120rem] mx-auto px-6 md:px-12 lg:px-20">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-              <div className="max-w-2xl">
-                <GoldBadge>Coleção Exclusiva</GoldBadge>
-                <h2 className="font-heading text-5xl md:text-6xl text-primary mt-6 mb-4">
-                  Oportunidades em Destaque
-                </h2>
-                <p className="font-paragraph text-lg text-foreground/60">
-                  Uma seleção curada dos imóveis mais distintos do nosso portfólio.
-                </p>
-              </div>
-              <Link to="/imoveis">
-                <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white transition-all h-12 px-8 font-paragraph">
-                  Ver Todo o Portfólio
-                </Button>
-              </Link>
-            </div>
-
-            <div className="min-h-[400px]">
-              {isLoading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-[400px] bg-gray-200 animate-pulse rounded-sm" />
-                  ))}
-                </div>
-              ) : featuredProperties.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-                  {featuredProperties.map((property, index) => (
-                    <PropertyCard key={property._id} property={property} index={index} />
-                  ))}
-                </div>
-              ) : (
-                <div className="w-full h-64 flex items-center justify-center border border-dashed border-gray-300">
-                  <p className="text-foreground/50 font-paragraph">Nenhum imóvel em destaque no momento.</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
+        <FeaturedPropertiesSection />
 
         {/* Service Areas - Parallax / Sticky Concept */}
         <section className="w-full py-32 bg-primary text-white relative overflow-hidden">
