@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Imveis } from '@/entities';
 import { BaseCrudService } from '@/integrations';
 import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronDown, X } from 'lucide-react';
+import { ArrowRight, ChevronDown, X, Filter } from 'lucide-react';
 import { generateSlug } from '@/lib/slug';
 
 const GoldBadge = ({ children }: { children: React.ReactNode }) => (
@@ -18,6 +18,7 @@ const GoldBadge = ({ children }: { children: React.ReactNode }) => (
 );
 
 interface FilterState {
+  transactionType: 'comprar' | 'alugar' | null;
   priceRange: [number, number];
   types: string[];
   regions: string[];
@@ -185,6 +186,191 @@ interface FilterSectionProps {
   onClose: () => void;
 }
 
+// Applied Filters Panel Component
+const AppliedFiltersPanel: React.FC<{
+  filters: FilterState;
+  onFilterChange: (filters: FilterState) => void;
+  isOpen: boolean;
+  onClose: () => void;
+}> = ({ filters, onFilterChange, isOpen, onClose }) => {
+  const appliedCount = [
+    filters.transactionType ? 1 : 0,
+    filters.types.length,
+    filters.regions.length,
+    filters.bedrooms.length,
+    filters.bathrooms.length,
+  ].reduce((a, b) => a + b, 0);
+
+  const removeFilter = (type: string, value?: any) => {
+    if (type === 'transactionType') {
+      onFilterChange({ ...filters, transactionType: null });
+    } else if (type === 'type') {
+      onFilterChange({
+        ...filters,
+        types: filters.types.filter(t => t !== value),
+      });
+    } else if (type === 'region') {
+      onFilterChange({
+        ...filters,
+        regions: filters.regions.filter(r => r !== value),
+      });
+    } else if (type === 'bedroom') {
+      onFilterChange({
+        ...filters,
+        bedrooms: filters.bedrooms.filter(b => b !== value),
+      });
+    } else if (type === 'bathroom') {
+      onFilterChange({
+        ...filters,
+        bathrooms: filters.bathrooms.filter(b => b !== value),
+      });
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            onClick={onClose}
+          />
+          <motion.div
+            initial={{ x: 300, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 300, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed md:absolute right-0 top-0 h-screen md:h-auto w-80 md:w-96 bg-white z-50 md:z-40 overflow-y-auto shadow-lg rounded-l-lg md:rounded-lg md:border md:border-gray-200"
+          >
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="font-heading text-lg text-primary">Filtros Aplicados</h3>
+                <button
+                  onClick={onClose}
+                  className="p-1 hover:bg-gray-100 rounded transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {appliedCount === 0 ? (
+                <p className="text-foreground/50 font-paragraph text-sm">Nenhum filtro aplicado</p>
+              ) : (
+                <div className="space-y-3">
+                  {filters.transactionType && (
+                    <div className="flex items-center justify-between bg-accent-gold/10 px-3 py-2 rounded-lg">
+                      <span className="font-paragraph text-sm capitalize">
+                        {filters.transactionType === 'comprar' ? 'Comprar' : 'Alugar'}
+                      </span>
+                      <button
+                        onClick={() => removeFilter('transactionType')}
+                        className="text-accent-gold hover:text-accent-gold/70 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
+
+                  {filters.types.map(type => (
+                    <div key={type} className="flex items-center justify-between bg-accent-gold/10 px-3 py-2 rounded-lg">
+                      <span className="font-paragraph text-sm">{type}</span>
+                      <button
+                        onClick={() => removeFilter('type', type)}
+                        className="text-accent-gold hover:text-accent-gold/70 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+
+                  {filters.regions.map(region => (
+                    <div key={region} className="flex items-center justify-between bg-accent-gold/10 px-3 py-2 rounded-lg">
+                      <span className="font-paragraph text-sm">{region}</span>
+                      <button
+                        onClick={() => removeFilter('region', region)}
+                        className="text-accent-gold hover:text-accent-gold/70 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+
+                  {filters.bedrooms.map(count => (
+                    <div key={`bed-${count}`} className="flex items-center justify-between bg-accent-gold/10 px-3 py-2 rounded-lg">
+                      <span className="font-paragraph text-sm">{count}+ Quartos</span>
+                      <button
+                        onClick={() => removeFilter('bedroom', count)}
+                        className="text-accent-gold hover:text-accent-gold/70 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+
+                  {filters.bathrooms.map(count => (
+                    <div key={`bath-${count}`} className="flex items-center justify-between bg-accent-gold/10 px-3 py-2 rounded-lg">
+                      <span className="font-paragraph text-sm">{count}+ Banheiros</span>
+                      <button
+                        onClick={() => removeFilter('bathroom', count)}
+                        className="text-accent-gold hover:text-accent-gold/70 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// Property Types Popover Component
+const PropertyTypesPopover: React.FC<{
+  types: string[];
+  selectedTypes: string[];
+  onTypeToggle: (type: string) => void;
+  isOpen: boolean;
+  onClose: () => void;
+}> = ({ types, selectedTypes, onTypeToggle, isOpen, onClose }) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-30"
+            onClick={onClose}
+          />
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-40 p-4"
+          >
+            <div className="space-y-2 max-h-80 overflow-y-auto">
+              {types.map(type => (
+                <label key={type} className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={selectedTypes.includes(type)}
+                    onChange={() => onTypeToggle(type)}
+                    className="w-4 h-4 rounded border-gray-300"
+                  />
+                  <span className="font-paragraph text-sm text-foreground">{type}</span>
+                </label>
+              ))}
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const FilterSidebar: React.FC<FilterSectionProps> = ({
   filters,
   onFilterChange,
@@ -194,16 +380,25 @@ const FilterSidebar: React.FC<FilterSectionProps> = ({
 }) => {
   const [expandedFilters, setExpandedFilters] = useState<Record<string, boolean>>({
     price: true,
-    type: true,
     region: true,
     bedrooms: false,
     bathrooms: false,
   });
+  const [typesPopoverOpen, setTypesPopoverOpen] = useState(false);
+  const [appliedFiltersOpen, setAppliedFiltersOpen] = useState(false);
 
   const uniqueTypes = Array.from(new Set(properties.map(p => p.propertyType).filter(Boolean)));
   const uniqueRegions = Array.from(new Set(properties.map(p => p.locationRegion).filter(Boolean)));
   const maxPrice = Math.max(...properties.map(p => p.price || 0));
   const minPrice = Math.min(...properties.map(p => p.price || 0).filter(p => p > 0));
+
+  const appliedFiltersCount = [
+    filters.transactionType ? 1 : 0,
+    filters.types.length,
+    filters.regions.length,
+    filters.bedrooms.length,
+    filters.bathrooms.length,
+  ].reduce((a, b) => a + b, 0);
 
   const toggleFilter = (filterName: string) => {
     setExpandedFilters(prev => ({
@@ -258,6 +453,7 @@ const FilterSidebar: React.FC<FilterSectionProps> = ({
 
   const handleReset = () => {
     onFilterChange({
+      transactionType: null,
       priceRange: [0, maxPrice],
       types: [],
       regions: [],
@@ -303,6 +499,39 @@ const FilterSidebar: React.FC<FilterSectionProps> = ({
             Limpar Filtros
           </button>
 
+          {/* Transaction Type - Toggle Buttons */}
+          <div className="mb-6 md:mb-4">
+            <span className="font-heading text-sm md:text-xs uppercase text-primary font-semibold block mb-3 md:mb-2">Tipo de Transação</span>
+            <div className="flex gap-2">
+              <button
+                onClick={() => onFilterChange({
+                  ...filters,
+                  transactionType: filters.transactionType === 'comprar' ? null : 'comprar'
+                })}
+                className={`flex-1 py-2 px-3 rounded-lg font-paragraph text-sm transition-all ${
+                  filters.transactionType === 'comprar'
+                    ? 'bg-primary text-white'
+                    : 'bg-gray-100 text-foreground hover:bg-gray-200'
+                }`}
+              >
+                Comprar
+              </button>
+              <button
+                onClick={() => onFilterChange({
+                  ...filters,
+                  transactionType: filters.transactionType === 'alugar' ? null : 'alugar'
+                })}
+                className={`flex-1 py-2 px-3 rounded-lg font-paragraph text-sm transition-all ${
+                  filters.transactionType === 'alugar'
+                    ? 'bg-primary text-white'
+                    : 'bg-gray-100 text-foreground hover:bg-gray-200'
+                }`}
+              >
+                Alugar
+              </button>
+            </div>
+          </div>
+
           {/* Price Filter */}
           <div className="mb-6 md:mb-4">
             <button
@@ -331,32 +560,26 @@ const FilterSidebar: React.FC<FilterSectionProps> = ({
             )}
           </div>
 
-          {/* Type Filter */}
-          <div className="mb-6 md:mb-4">
+          {/* Type Filter - Button with Popover */}
+          <div className="mb-6 md:mb-4 relative">
             <button
-              onClick={() => toggleFilter('type')}
-              className="flex items-center justify-between w-full mb-3 md:mb-2"
+              onClick={() => setTypesPopoverOpen(!typesPopoverOpen)}
+              className="w-full flex items-center justify-between py-2 px-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
             >
-              <span className="font-heading text-sm md:text-xs uppercase text-primary font-semibold">Tipo</span>
+              <span className="font-paragraph text-sm text-foreground">
+                {filters.types.length > 0 ? `${filters.types.length} tipo(s)` : 'Ver todos os tipos'}
+              </span>
               <ChevronDown
-                className={`w-4 h-4 transition-transform ${expandedFilters.type ? 'rotate-180' : ''}`}
+                className={`w-4 h-4 transition-transform ${typesPopoverOpen ? 'rotate-180' : ''}`}
               />
             </button>
-            {expandedFilters.type && (
-              <div className="space-y-2 md:space-y-1">
-                {uniqueTypes.map(type => (
-                  <label key={type} className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={filters.types.includes(type)}
-                      onChange={() => handleTypeToggle(type)}
-                      className="w-4 h-4 rounded border-gray-300"
-                    />
-                    <span className="text-sm md:text-xs text-foreground/70">{type}</span>
-                  </label>
-                ))}
-              </div>
-            )}
+            <PropertyTypesPopover
+              types={uniqueTypes}
+              selectedTypes={filters.types}
+              onTypeToggle={handleTypeToggle}
+              isOpen={typesPopoverOpen}
+              onClose={() => setTypesPopoverOpen(false)}
+            />
           </div>
 
           {/* Region Filter */}
@@ -444,6 +667,25 @@ const FilterSidebar: React.FC<FilterSectionProps> = ({
           </div>
         </div>
       </motion.div>
+
+      {/* Applied Filters Panel */}
+      <AppliedFiltersPanel
+        filters={filters}
+        onFilterChange={onFilterChange}
+        isOpen={appliedFiltersOpen}
+        onClose={() => setAppliedFiltersOpen(false)}
+      />
+
+      {/* Applied Filters Counter Button - Desktop */}
+      {appliedFiltersCount > 0 && (
+        <button
+          onClick={() => setAppliedFiltersOpen(!appliedFiltersOpen)}
+          className="hidden md:flex absolute top-0 right-0 items-center gap-2 px-4 py-2 bg-accent-gold/10 hover:bg-accent-gold/20 rounded-lg transition-colors border border-accent-gold/30"
+        >
+          <Filter className="w-4 h-4 text-accent-gold" />
+          <span className="font-paragraph text-sm font-semibold text-accent-gold">{appliedFiltersCount} aplicados</span>
+        </button>
+      )}
     </>
   );
 };
@@ -452,7 +694,9 @@ export default function FeaturedPropertiesSection() {
   const [properties, setProperties] = useState<Imveis[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [appliedFiltersOpen, setAppliedFiltersOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
+    transactionType: null,
     priceRange: [0, 10000000],
     types: [],
     regions: [],
@@ -481,6 +725,14 @@ export default function FeaturedPropertiesSection() {
       setIsLoading(false);
     }
   };
+
+  const appliedFiltersCount = [
+    filters.transactionType ? 1 : 0,
+    filters.types.length,
+    filters.regions.length,
+    filters.bedrooms.length,
+    filters.bathrooms.length,
+  ].reduce((a, b) => a + b, 0);
 
   const filteredProperties = useMemo(() => {
     return properties.filter(property => {
@@ -526,7 +778,7 @@ export default function FeaturedPropertiesSection() {
         </div>
 
         {/* Main Content */}
-        <div className="flex gap-6 md:gap-8">
+        <div className="flex gap-6 md:gap-8 relative">
           {/* Filter Toggle Button - Mobile */}
           <button
             onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -538,8 +790,19 @@ export default function FeaturedPropertiesSection() {
             </svg>
           </button>
 
+          {/* Applied Filters Counter Button - Mobile */}
+          {appliedFiltersCount > 0 && (
+            <button
+              onClick={() => setAppliedFiltersOpen(!appliedFiltersOpen)}
+              className="md:hidden fixed bottom-24 right-6 z-40 flex items-center gap-2 px-3 py-2 bg-accent-gold text-primary rounded-full shadow-lg hover:shadow-xl transition-shadow font-paragraph text-sm font-semibold"
+            >
+              <Filter className="w-4 h-4" />
+              {appliedFiltersCount}
+            </button>
+          )}
+
           {/* Sidebar */}
-          <div className="hidden md:block md:w-64 flex-shrink-0">
+          <div className="hidden md:block md:w-64 flex-shrink-0 relative">
             <FilterSidebar
               filters={filters}
               onFilterChange={setFilters}
@@ -557,6 +820,12 @@ export default function FeaturedPropertiesSection() {
               properties={properties}
               isOpen={isFilterOpen}
               onClose={() => setIsFilterOpen(false)}
+            />
+            <AppliedFiltersPanel
+              filters={filters}
+              onFilterChange={setFilters}
+              isOpen={appliedFiltersOpen}
+              onClose={() => setAppliedFiltersOpen(false)}
             />
           </div>
 
