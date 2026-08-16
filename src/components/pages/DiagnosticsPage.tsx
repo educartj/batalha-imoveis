@@ -33,7 +33,10 @@ export default function DiagnosticsPage() {
     }
   };
 
-  const propertiesWithVideos = properties.filter(p => p.video && p.video.trim() !== '');
+  const propertiesWithVideos = properties.filter(p => p.galeriaDeFotos && Array.isArray(p.galeriaDeFotos) && p.galeriaDeFotos.some((m: any) => {
+    const url = typeof m === 'string' ? m : (m?.src || m?.url || '');
+    return /\.(mp4|webm|ogg|mov|avi|mkv|m4v|flv|wmv|3gp)$/i.test(url);
+  }));
   const propertiesWithGallery = properties.filter(p => p.galeriaDeFotos && Array.isArray(p.galeriaDeFotos) && p.galeriaDeFotos.length > 0);
 
   const copyToClipboard = (text: string, id: string) => {

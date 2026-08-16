@@ -22,8 +22,6 @@ export interface Imveis {
   /** @wixFieldType text */
   address?: string;
   /** @wixFieldType text */
-  propertyType?: string;
-  /** @wixFieldType text */
   status?: string;
   /** @wixFieldType number */
   price?: number;
@@ -37,8 +35,10 @@ export interface Imveis {
   galeriaDeFotos?: any;
   /** @wixFieldType number */
   cdigo?: number;
-  /** @wixFieldType video */
-  video?: string;
+  /** @wixFieldType array_string */
+  propertyType?: any;
+  /** @wixFieldType array_string */
+  propertyType1?: any;
 }
 
 

@@ -24,7 +24,7 @@ const MAIN_PROPERTY_TYPES = ['Apartamento', 'Casa', 'Terreno', 'Comercial', 'Ch√
 const propertyTypeIcons: Record<string, React.ReactNode> = {
   'Apartamento': <Building2 className="w-5 h-5" />,
   'Casa': <Home className="w-5 h-5" />,
-  'Casa em condominios'
+  'Casa em condominios': <Home className="w-5 h-5" />,
   'Terreno': <MapPin className="w-5 h-5" />,
   'Comercial': <Store className="w-5 h-5" />,
   'Galp√£o': <Warehouse className="w-5 h-5" />,
