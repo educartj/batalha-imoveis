@@ -421,7 +421,7 @@ export default function PropertyDetailPage() {
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.95, opacity: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="relative w-full max-w-6xl"
+                            className="relative"
                             onClick={(e) => e.stopPropagation()}
                           >
                             {/* Media Container */}
