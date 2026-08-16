@@ -75,7 +75,7 @@ export default function PropertyDetailPage() {
     return allMedia.filter((media: any) => {
       const mediaUrl = getMediaUrl(media);
       if (!mediaUrl) return false;
-      
+
       const isVideo = isVideoMedia(media);
 
       if (mediaFilter === 'photos') return !isVideo;
@@ -105,7 +105,7 @@ export default function PropertyDetailPage() {
         <SEO
           title={`${property.title} - Batalha Imóveis | Imóvel de Alto Padrão`}
           description={property.description ? property.description.substring(0, 160) : `${property.title} - Imóvel de alto padrão em ${property.locationRegion}. Preço: R$ ${property.price?.toLocaleString('pt-BR')}. ${property.bedrooms} quartos, ${property.bathrooms} banheiros, ${property.area}m².`}
-          canonical={`/imoveis/${generateSlug(property.title || '')}`}
+          canonical={`/imoveis/${generateSlug(property.title || '')}-${property.locationRegion}-`}
           keywords={`${property.title}, imóvel ${property.locationRegion}, ${property.propertyType}, venda imóvel, imóvel de luxo`}
           ogImage={property.mainImage}
           ogType="product"
