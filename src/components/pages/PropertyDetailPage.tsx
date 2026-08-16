@@ -28,6 +28,13 @@ export default function PropertyDetailPage() {
     loadProperty();
   }, [slug]);
 
+  // Reset zoom level when modal opens or image changes
+  useEffect(() => {
+    if (selectedImageIndex !== null) {
+      setZoomLevel(1);
+    }
+  }, [selectedImageIndex]);
+
   const loadProperty = async () => {
     try {
       // Fetch all properties and find the one matching the slug
@@ -450,6 +457,7 @@ export default function PropertyDetailPage() {
                                     />
                                   ) : (
                                     <motion.div
+                                      initial={{ scale: 1 }}
                                       animate={{ scale: zoomLevel }}
                                       transition={{ duration: 0.3 }}
                                       className="flex items-center justify-center"
