@@ -4,7 +4,7 @@ import { Imveis } from '@/entities';
 import { BaseCrudService } from '@/integrations';
 import { generateSlug } from '@/lib/slug';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Briefcase, Building, Building2, ChevronDown, DollarSign, Filter, Home, Landmark, MapPin, Store, Trees, Warehouse, X, Zap } from 'lucide-react';
+import { ArrowRight, Briefcase, Building, Building2, ChevronDown, DollarSign, Filter, Home,  Landmark, MapPin, Store, Trees, Warehouse, X, Zap } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
