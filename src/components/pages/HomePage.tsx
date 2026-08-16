@@ -8,7 +8,7 @@ import { Image } from '@/components/ui/image';
 import { Imveis } from '@/entities';
 import { BaseCrudService } from '@/integrations';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Award, Home, MapPin, Phone, TrendingUp } from 'lucide-react';
+import { ArrowRight, Award, Home, Warehouse, MapPin, Phone, TrendingUp } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
