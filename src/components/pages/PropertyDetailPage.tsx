@@ -8,7 +8,7 @@ import { Imveis } from '@/entities';
 import { BaseCrudService } from '@/integrations';
 import { generateSlug } from '@/lib/slug';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Bath, Bed, ChevronLeft, ChevronRight, Home, MapPin, Maximize, Play, X } from 'lucide-react';
+import { ArrowLeft, Bath, Bed, ChevronLeft, ChevronRight, Home, MapPin, Maximize, Play, X, ZoomIn, ZoomOut } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
@@ -21,6 +21,7 @@ export default function PropertyDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [mediaFilter, setMediaFilter] = useState<'all' | 'photos' | 'videos'>('all');
+  const [zoomLevel, setZoomLevel] = useState(1);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -231,7 +232,7 @@ export default function PropertyDetailPage() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.4, delay: displayIndex * 0.05 }}
-                                className="flex-shrink-0 w-[280px] h-[240px] sm:w-[350px] sm:h-[300px] rounded-lg overflow-hidden cursor-pointer group relative"
+                                className="flex-shrink-0 h-[300px] md:h-[400px] lg:h-[600px] aspect-[3/4] rounded-lg overflow-hidden cursor-pointer group relative"
                                 onClick={() => setSelectedImageIndex(actualIndex)}
                               >
                                 {isVideo ? (
@@ -410,7 +411,10 @@ export default function PropertyDetailPage() {
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.2 }}
                           className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-                          onClick={() => setSelectedImageIndex(null)}
+                          onClick={() => {
+                            setSelectedImageIndex(null);
+                            setZoomLevel(1);
+                          }}
                         >
                           <motion.div
                             initial={{ scale: 0.95, opacity: 0 }}
@@ -428,7 +432,7 @@ export default function PropertyDetailPage() {
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.4 }}
-                                className="w-full h-full flex items-center justify-center"
+                                className="w-full h-full flex items-center justify-center overflow-auto"
                               >
                                 {(() => {
                                   const selectedMedia = property.galeriaDeFotos[selectedImageIndex];
@@ -445,13 +449,19 @@ export default function PropertyDetailPage() {
                                       height={600}
                                     />
                                   ) : (
-                                    <Image
-                                      src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
-                                      alt={`Galeria ${selectedImageIndex + 1}`}
-                                      className="max-h-full max-w-full object-contain"
-                                      width={1200}
-                                      height={600}
-                                    />
+                                    <motion.div
+                                      animate={{ scale: zoomLevel }}
+                                      transition={{ duration: 0.3 }}
+                                      className="flex items-center justify-center"
+                                    >
+                                      <Image
+                                        src={mediaUrl || 'https://static.wixstatic.com/media/72153f_af83c63f70b64a859f403e4636547a27~mv2.png?originWidth=1152&originHeight=576'}
+                                        alt={`Galeria ${selectedImageIndex + 1}`}
+                                        className="max-h-full max-w-full object-contain"
+                                        width={1200}
+                                        height={600}
+                                      />
+                                    </motion.div>
                                   );
                                 })()}
                               </motion.div>
@@ -459,9 +469,12 @@ export default function PropertyDetailPage() {
 
                             {/* Left Arrow */}
                             <button
-                              onClick={() => setSelectedImageIndex((prev) =>
-                                prev === 0 ? property.galeriaDeFotos.length - 1 : prev! - 1
-                              )}
+                              onClick={() => {
+                                setSelectedImageIndex((prev) =>
+                                  prev === 0 ? property.galeriaDeFotos.length - 1 : prev! - 1
+                                );
+                                setZoomLevel(1);
+                              }}
                               className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-accent-gold/90 hover:bg-accent-gold text-primary rounded-full p-3 transition-all duration-300 hover:scale-110 shadow-lg"
                             >
                               <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
@@ -469,9 +482,12 @@ export default function PropertyDetailPage() {
 
                             {/* Right Arrow */}
                             <button
-                              onClick={() => setSelectedImageIndex((prev) =>
-                                prev === property.galeriaDeFotos.length - 1 ? 0 : prev! + 1
-                              )}
+                              onClick={() => {
+                                setSelectedImageIndex((prev) =>
+                                  prev === property.galeriaDeFotos.length - 1 ? 0 : prev! + 1
+                                );
+                                setZoomLevel(1);
+                              }}
                               className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-accent-gold/90 hover:bg-accent-gold text-primary rounded-full p-3 transition-all duration-300 hover:scale-110 shadow-lg"
                             >
                               <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
@@ -479,11 +495,39 @@ export default function PropertyDetailPage() {
 
                             {/* Close Button */}
                             <button
-                              onClick={() => setSelectedImageIndex(null)}
+                              onClick={() => {
+                                setSelectedImageIndex(null);
+                                setZoomLevel(1);
+                              }}
                               className="absolute top-4 right-4 z-10 bg-primary/80 hover:bg-primary text-primary-foreground rounded-full p-2.5 transition-all duration-300 hover:scale-110 shadow-lg"
                             >
                               <X className="w-6 h-6" />
                             </button>
+
+                            {/* Zoom Controls - Only for images */}
+                            {property.galeriaDeFotos[selectedImageIndex] && !isVideoMedia(property.galeriaDeFotos[selectedImageIndex]) && (
+                              <div className="absolute top-4 left-4 z-10 flex gap-2 bg-black/60 backdrop-blur-sm rounded-full p-2">
+                                <button
+                                  onClick={() => setZoomLevel(Math.max(1, zoomLevel - 0.2))}
+                                  disabled={zoomLevel <= 1}
+                                  className="bg-accent-gold/90 hover:bg-accent-gold disabled:bg-accent-gold/50 disabled:cursor-not-allowed text-primary rounded-full p-2 transition-all duration-300 hover:scale-110 shadow-lg"
+                                  title="Diminuir zoom"
+                                >
+                                  <ZoomOut className="w-5 h-5 sm:w-6 sm:h-6" />
+                                </button>
+                                <div className="flex items-center px-3 text-accent-gold font-paragraph font-semibold text-sm">
+                                  {Math.round(zoomLevel * 100)}%
+                                </div>
+                                <button
+                                  onClick={() => setZoomLevel(Math.min(3, zoomLevel + 0.2))}
+                                  disabled={zoomLevel >= 3}
+                                  className="bg-accent-gold/90 hover:bg-accent-gold disabled:bg-accent-gold/50 disabled:cursor-not-allowed text-primary rounded-full p-2 transition-all duration-300 hover:scale-110 shadow-lg"
+                                  title="Aumentar zoom"
+                                >
+                                  <ZoomIn className="w-5 h-5 sm:w-6 sm:h-6" />
+                                </button>
+                              </div>
+                            )}
 
                             {/* Counter and Info */}
                             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-black/60 backdrop-blur-sm px-6 py-3 rounded-full">
