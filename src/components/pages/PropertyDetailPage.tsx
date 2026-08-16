@@ -425,7 +425,7 @@ export default function PropertyDetailPage() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             {/* Media Container */}
-                            <div className="relative h-[600px] sm:h-[800px] rounded-2xl overflow-hidden flex items-center justify-center bg-gradient-to-br from-foreground/5 via-foreground/10 to-foreground/5">
+                            <div className="relative h-[600px] sm:h-[800px] h-[300px] md:h-[400px] lg:h-[600px] aspect-[2/4] rounded-2xl overflow-hidden flex items-center justify-center bg-gradient-to-br from-foreground/5 via-foreground/10 to-foreground/5">
                               <motion.div
                                 key={selectedImageIndex}
                                 initial={{ opacity: 0 }}
